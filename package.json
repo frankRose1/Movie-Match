@@ -1,0 +1,19 @@
+{
+  "name": "movie-match",
+  "version": "1.0.0",
+  "description": "Match a film with it's soundtrack using the OMDB and spotify APIs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/frankRose1/Movie-Match.git"
+  },
+  "author": "Frank Rosendorf",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
