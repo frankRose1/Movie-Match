@@ -11,4 +11,33 @@ cafeController.createCafe = async (req, res) => {
     res.sendStatus(201);
 };
 
+// GET /cafes ==> send 200 and the cafes
+cafeController.getCafes = async (req, res) => {
+    const cafes = await Cafe.find();
+    res.status(200);
+    res.json(cafes);
+};
+
+cafeController.getIndividualCafe = async (req, res) => {
+    const {cafeId} = req.params;
+    const cafe = await Cafe.findOne({_id: cafeId});
+    res.status = (200);
+    res.json(cafe);
+};
+
+//TODO: Confirm a user owns the store
+//POST /cafes/:cafeId/edit ==> send 204 and redirect to the cafe page
+// the form on the frontend will be populated with the existing values on the Cafe
+// if required fields are omitted then runValidators will catch it
+cafeController.updateCafe = async (req ,res) => {
+    const {cafeId} = req.params;
+    // query, data, options
+    const cafe = await Cafe.findOneAndUpdate({_id: cafeId}, req.body, {
+        new: true, //return the new updated cafe instead of the old one
+        runValidators: true //run validation on updates as well as creating cafes
+    }).exec();
+    res.location(`/cafe/${cafe._id}`);
+    res.sendStatus(204);
+};
+
 module.exports = cafeController;

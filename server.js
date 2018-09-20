@@ -35,5 +35,5 @@ app.use(errorHandlers.validationErrors)
 app.use(errorHandlers.globalErrorHandler);
 
 app.listen(port, () => {
-    console.log(`Express server is listening on ${port}`);
+    console.log(`Express server is listening on port ${port}`);
 });
