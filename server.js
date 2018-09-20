@@ -22,7 +22,7 @@ db.on('error', err => {
 })
 
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true})); //allows using inputs w/nested data name="location[address]" ==> location.address
 app.use(bodyParser.json());
 
 app.use('/', router);
