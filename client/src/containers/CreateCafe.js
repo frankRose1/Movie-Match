@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Input from '../components/UI/Input';
+import axios from 'axios';
 
 class CreateCafe extends Component {
   state = {
@@ -61,8 +62,10 @@ class CreateCafe extends Component {
           options: [
             {value: 'fastest', display: 'Fastest'},
             {value: 'slowest', display: 'Slowest'}
-          ]
-        }
+          ],
+          name: 'method'
+        },
+        value: ''
       }
     }
   }
@@ -79,6 +82,22 @@ class CreateCafe extends Component {
     this.setState({createCafeForm: updatedForm});
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+    this.setState({loading: true})
+    //send a request with axios
+    const data = {};
+    for (let key in this.state.createCafeForm) {
+      data[this.state.createCafeForm[key].elConfig.name] = this.state.createCafeForm[key].value;
+    }
+    axios.post('/cafes', data)
+      .then(res => {
+        console.log(res);
+        this.setState({loading: false});
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
     const formElementsArray = [];
     for (let key in this.state.createCafeForm) {
@@ -87,9 +106,9 @@ class CreateCafe extends Component {
         config: this.state.createCafeForm[key]
       });
     }
-    
+
     return (
-      <form className="create-cafe-form" action="/cafes" method="POST">
+      <form className="create-cafe-form" action="/cafes" method="POST" onSubmit={this.handleSubmit}>
         <h2>Tell Us About Your Awesome Cafe</h2>
           {formElementsArray.map(formEl => (
             <Input
@@ -99,6 +118,7 @@ class CreateCafe extends Component {
               elementConfig={formEl.config.elConfig}
               value={formEl.config.value}/>
           ))}
+          <input type="submit" value="Create Cafe" />
       </form>
     );
   }
