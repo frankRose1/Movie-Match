@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import CreateCafe from './containers/CreateCafe';
 
 class App extends Component {
   state = {
     data: null
   }
 
-  componentDidMount(){
-    this.call_API("/api/hello")
-      .then(res => {
-        this.setState({data: res});
-        console.log(this.state.data);
-      })
-      .catch(err => console.error(err))
-      
-  }
+  // componentDidMount(){
+  //   this.call_API("/api/hello")
+  //     .then(res => {
+  //       this.setState({data: res});
+  //       console.log(this.state.data);
+  //     })
+  //     .catch(err => console.error(err))
+  // }
 
   call_API = async (route) => {
     const response = await fetch(route);
@@ -33,13 +32,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          {this.state.data == null ? '' : this.state.data.name}
-        </p>
+        <CreateCafe />
       </div>
     );
   }

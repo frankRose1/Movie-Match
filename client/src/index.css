@@ -2,4 +2,48 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+.create-cafe-form {
+  margin: 20px auto;
+  width: 80%;
+  text-align: center;
+  box-shadow: 0 2px 3px #ccc;
+  border: 1px solid #eee;
+  padding: 10px;
+}
+
+@media (min-width: 600px) {
+  .create-cafe-form {
+    width: 550px;
+  }
+}
+
+.styled-input {
+  width: 100%;
+  padding: 10px;
+}
+
+.styled-input label{
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.styled-input input,
+.styled-input select, 
+.styled-input textarea  {
+  outline: none;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font: inherit;
+  padding: 6px 10px;
+  display: block;
+  width: 100%;
+}
+
+.styled-input input:focus {
+  outline: none;
+  background-color: #ccc;
 }

@@ -29,7 +29,7 @@ const CafeSchema = new Schema({
     },
     coordinates: [{
       type: Number,
-      required: 'You provide coordinates!'
+      required: 'You must provide coordinates!'
     }],
     address: {
       type: String,
