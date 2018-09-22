@@ -26,6 +26,17 @@ class CreateCafe extends Component {
         },
         value: ''
       },
+      photo: {
+        elType: 'input',
+        elConfig: {
+          type: 'file',
+          placeholder: 'Choose an Image',
+          name: 'photo',
+          id: 'photo',
+          accept: 'image/gif image/jpeg image/png'
+        },
+        value: ''
+      },
       address: {
         elType: 'input',
         elConfig: {
@@ -84,13 +95,19 @@ class CreateCafe extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({loading: true})
-    //send a request with axios
+    this.setState({loading: true});
     const data = {};
     for (let key in this.state.createCafeForm) {
       data[this.state.createCafeForm[key].elConfig.name] = this.state.createCafeForm[key].value;
     }
-    axios.post('/cafes', data)
+    const axiosConfig = {
+      url: '/cafes',
+      data,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    };
+    axios.post(axiosConfig)
       .then(res => {
         console.log(res);
         this.setState({loading: false});

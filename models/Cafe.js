@@ -36,7 +36,8 @@ const CafeSchema = new Schema({
       required: 'You must provide an address',
       trim: true
     }
-  }
+  },
+  photo: String
 });
 
 const Cafe = mongoose.model('Cafe', CafeSchema);
