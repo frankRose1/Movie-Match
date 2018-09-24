@@ -1,15 +1,10 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
-
-/**
- * TODO: delete this
- *  Schema comments
- *  Cafe will have ref to a user
- *      Cafe will also have array of reviews || Review will have reference to a Cafe
- *  Review will need ref to the user who authored it
- */
+const validator = require('validator');
+const md5 = require('md5');
+const passportLocalMongoose = require('passport-local-mongoose'); //takes acre of adding additional fields/methods needed for logging a user in
+const uniqueValidator = require('mongoose-unique-validator')
+mongoose.Promise = global.Promise;
 
 const UserSchema = new Schema({
     email: {
@@ -20,21 +15,17 @@ const UserSchema = new Schema({
         lowercase: true,
         trim: true
     },
-    first_name: {
+    name: {
         type: String,
-        required: 'First name is required.',
+        required: 'Please provide your name.',
         trim: true
-    },
-    last_name: {
-        type: String,
-        required: 'Last name is required.',
-        trim: true
-    },
-    password: {
-        type: String,
-        required: 'Password is required.'
     }
 });
+
+//give our schema the fields necessary for logging in/authentication and use email address as the login field
+    //will add a username, hash and salt field to store the username, the hashed password and the salt value
+UserSchema.plugin(passportLocalMongoose, {usernameField: 'email'});
+UserSchema.plugin(uniqueValidator); //turns the unique error in to a validation error which will be caught by the error handler
 
 const User = mongoose.model('User', UserSchema);
 

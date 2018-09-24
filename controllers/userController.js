@@ -3,20 +3,13 @@ const User = mongoose.model('User');
 
 const userController = {};
 
-// TODO: Hash the password before saving
 // POST /users
 userController.createUser = (req, res) => {
-    const {firstName, lastName, email, password, confirmPassword} = req.body;
-    if (password === confirmPassword) {
+    res.json({msg: 'validated'})
+};
 
-        const userData = {
-            firstName,
-            lastName,
-            email,
-            password
-        };
-    }
-    //handle when passwords dont match
+userController.userLogin = async (req, res) => {
+
 };
 
 module.exports = userController;

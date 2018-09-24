@@ -17,19 +17,27 @@ router.get('/', catchErrors(cafeController.getCafes));
 router.get('/cafes', catchErrors(cafeController.getCafes));
 router.get('/cafe/:cafeSlug', catchErrors(cafeController.getIndividualCafe));
 router.post('/cafes',
-  // middleware.uploadPhoto,
-  // catchErrors(middleware.resizePhoto),
+  middleware.uploadPhoto,
+  catchErrors(middleware.resizePhoto),
   catchErrors(cafeController.createCafe)
 );
 router.put('/cafes/:cafeId/edit',
-  // middleware.uploadPhoto,
-  // catchErrors(middleware.resizePhoto),
+  middleware.uploadPhoto,
+  catchErrors(middleware.resizePhoto),
   catchErrors(cafeController.updateCafe)
 );
 
 
 // user routes
-router.post('/users', userController.createUser);
+  // 1) Validate the registration data
+  // 2) register the user
+  // 3) log the user in
+router.post('/users/register',
+  middleware.createValidationFor,
+  middleware.validateRegister,
+  catchErrors(userController.createUser)
+);
+router.post('/users/signin', userController.userLogin);
 
 //review routes
 

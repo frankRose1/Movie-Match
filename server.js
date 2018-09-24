@@ -5,6 +5,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
 const errorHandlers = require('./handlers/errorHandlers');
 const port = process.env.PORT || 5000;
 //import models
@@ -24,6 +25,7 @@ db.on('error', err => {
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: true})); //allows using inputs w/nested data name="location[address]" ==> location.address
 app.use(bodyParser.json());
+app.use(expressValidator());
 
 app.use('/', router);
 
