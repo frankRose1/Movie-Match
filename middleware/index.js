@@ -20,10 +20,13 @@ const multerOptions = {
   }
 };
 
-//multer can handle multiple fields but we only need one per cafe. looking for a single field called "photo"
-middleware.uploadPhoto = multer(multerOptions).single('photo');
+//looking for a single field called "photo"
+middleware.uploadPhoto = function(req, res, next){
+  multer(multerOptions).single('photo');
+  next();
+};
 
-middleware.resizePhoto = async (req, res, next) => {
+middleware.resizePhoto = async function(req, res, next){
   //multer will populate req.file with the uploaded image if there is one
   if (!req.file) {
     return next();

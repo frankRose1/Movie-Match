@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const cafeController = require('../controllers/cafeController');
 const {catchErrors} = require('../handlers/errorHandlers');
-const middleware = require('../middleware/middleware');
+const middleware = require('../middleware');
 
 /**
  * Uploading & resizing images
@@ -15,15 +15,15 @@ const middleware = require('../middleware/middleware');
 //cafe routes
 router.get('/', catchErrors(cafeController.getCafes));
 router.get('/cafes', catchErrors(cafeController.getCafes));
-router.get('/cafe/:cafeId', catchErrors(cafeController.getIndividualCafe));
+router.get('/cafe/:cafeSlug', catchErrors(cafeController.getIndividualCafe));
 router.post('/cafes',
-  middleware.uploadPhoto,
-  catchErrors(middleware.resizePhoto),
+  // middleware.uploadPhoto,
+  // catchErrors(middleware.resizePhoto),
   catchErrors(cafeController.createCafe)
 );
 router.put('/cafes/:cafeId/edit',
-  middleware.uploadPhoto,
-  catchErrors(middleware.resizePhoto),
+  // middleware.uploadPhoto,
+  // catchErrors(middleware.resizePhoto),
   catchErrors(cafeController.updateCafe)
 );
 
