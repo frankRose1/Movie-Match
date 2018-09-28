@@ -30,14 +30,12 @@ router.put('/cafes/:cafeId/edit',
 
 
 // user routes
-//Validate the registration data, register the user, log the user in
 router.post('/users/register',
   middleware.createRegisterValidation,
   middleware.validateRegister,
-  catchErrors(userController.createUser),
-  authController.login
+  catchErrors(userController.createUser)
 );
-router.post('/users/signin', userController.userLogin);
+router.post('/login', authController.userLogin);
 
 //review routes
 

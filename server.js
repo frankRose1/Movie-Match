@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+const session = require('session');
+const MongoStore = require('connect-mongo')(session);
 const errorHandlers = require('./handlers/errorHandlers');
 const port = process.env.PORT || 5000;
 //import models
@@ -20,7 +22,16 @@ mongoose.Promise = global.Promise; //use es6 promises
 const db = mongoose.connection;
 db.on('error', err => {
     console.error(`Failed to connect to database: ${err.message}`);
-})
+});
+
+app.use(session({
+    secret: process.env.APP_SECRET,
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: db
+    })
+}));
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: true})); //allows using inputs w/nested data name="location[address]" ==> location.address

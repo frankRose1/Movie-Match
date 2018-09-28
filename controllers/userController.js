@@ -4,17 +4,14 @@ const User = mongoose.model('User');
 
 const userController = {};
 
-// POST /users
+// POST /users/register
 userController.createUser = async (req, res) => {
-  const user = new User({name: req.body.name, email: req.body.email});
-  //pomisify the register method(provided by passport-local-mongoose) and bind it to the User object
-  const register = promisify(User.register, User);
-  await register(user, req.body.password); //passport-local-mongoose put a salt and hash on the user doc
-  next(); //move along to autController.login
-};
-
-userController.userLogin = async (req, res) => {
-  
+  const user = await new User(req.body);
+  await user.save();
+  //log the user in
+  req.session.userId = user._id;
+  res.location('/');
+  res.sendStatus(201);
 };
 
 module.exports = userController;
