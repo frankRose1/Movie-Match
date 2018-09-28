@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const cafeController = require('../controllers/cafeController');
+const authController = require('../controllers/authController');
 const {catchErrors} = require('../handlers/errorHandlers');
 const middleware = require('../middleware');
 
@@ -29,13 +30,12 @@ router.put('/cafes/:cafeId/edit',
 
 
 // user routes
-  // 1) Validate the registration data
-  // 2) register the user
-  // 3) log the user in
+//Validate the registration data, register the user, log the user in
 router.post('/users/register',
-  middleware.createValidationFor,
+  middleware.createRegisterValidation,
   middleware.validateRegister,
-  catchErrors(userController.createUser)
+  catchErrors(userController.createUser),
+  authController.login
 );
 router.post('/users/signin', userController.userLogin);
 

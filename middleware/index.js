@@ -43,7 +43,7 @@ middleware.resizePhoto = async function(req, res, next){
   next();
 };
 
-middleware.createValidationFor = [
+middleware.createRegisterValidation = [
   sanitizeBody('name'),
   check('name').not().isEmpty().withMessage('Please provide your name!'),
   check('email').isEmail().withMessage('That email is invalid'),

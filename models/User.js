@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const validator = require('validator');
-const md5 = require('md5');
-const passportLocalMongoose = require('passport-local-mongoose'); //takes acre of adding additional fields/methods needed for logging a user in
-const uniqueValidator = require('mongoose-unique-validator')
+const uniqueValidator = require('mongoose-unique-validator');
+const bcrypt = require('bcrypt');
+
 mongoose.Promise = global.Promise;
 
 const UserSchema = new Schema({
@@ -19,13 +19,48 @@ const UserSchema = new Schema({
         type: String,
         required: 'Please provide your name.',
         trim: true
+    },
+    password: {
+        type: String,
+        required: 'You must supply a password!'
     }
 });
 
-//give our schema the fields necessary for logging in/authentication and use email address as the login field
-    //will add a username, hash and salt field to store the username, the hashed password and the salt value
-UserSchema.plugin(passportLocalMongoose, {usernameField: 'email'});
+
 UserSchema.plugin(uniqueValidator); //turns the unique error in to a validation error which will be caught by the error handler
+
+UserSchema.pre('save', async function(next){
+    const hash = await bcrypt.hash(this.password, 10);
+    this.password = hash;
+    next();
+});
+
+/**
+ * Authenticae a user when they login
+ * @param {string} email - users email to be looked up
+ * @param {string} password - hashed password
+ * @param {function} callback - either an error or the user document
+ */
+UserSchema.statics.authenticate = function(email, password, callback){
+    
+    this.findOne({email: email})
+        .exec((err, user) => {
+            if (err) return callback(err);
+            if (!user) {
+                const error = new Error('Couldn\'t find a user with that email');
+                error.status = 404;
+                return callback(error);
+            }
+            
+            bcrypt.compare(password, user.password, (err, result) => {
+                if (result) {
+                    return callback(null, user);
+                }  else {
+                    callback(err);
+                }
+            });
+        });
+}
 
 const User = mongoose.model('User', UserSchema);
 
