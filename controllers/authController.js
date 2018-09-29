@@ -1,6 +1,7 @@
 /**
  * Handles all authorization and authentication
  */
+const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const authController = {};
 
@@ -19,6 +20,35 @@ authController.userLogin = (req, res, next) => {
     const error = new Error('Email and password are required!');
     error.status = 400;
     next(error);
+  }
+};
+
+//log the user out by destroying the session
+authController.userLogout = (req, res, next) => {
+  if (req.session) {
+    req.session.destroy( err => {
+      if (err) return next(err);
+      res.location("/").sendStatus(200);
+    });
+  }
+};
+
+authController.requiresLogin = (req, res, next) => {
+  if (req.session && req.session.userId) {
+    return next();
+  } else {
+    const error = new Error('You must be logged in to view this page!');
+    error.status = 400;
+    return next(error);
+  }
+};
+
+//to protect routes such as login and register
+authController.requiresLogout = (req, res, next) => {
+  if (req.session && req.session.userId) {
+    return res.redirect('/');
+  } else {
+    next();
   }
 };
 

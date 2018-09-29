@@ -18,6 +18,7 @@ router.get('/', catchErrors(cafeController.getCafes));
 router.get('/cafes', catchErrors(cafeController.getCafes));
 router.get('/cafe/:cafeSlug', catchErrors(cafeController.getIndividualCafe));
 router.post('/cafes',
+  authController.requiresLogin,
   middleware.uploadPhoto,
   catchErrors(middleware.resizePhoto),
   catchErrors(cafeController.createCafe)
@@ -31,11 +32,19 @@ router.put('/cafes/:cafeId/edit',
 
 // user routes
 router.post('/users/register',
+  authController.requiresLogout,
   middleware.createRegisterValidation,
   middleware.validateRegister,
   catchErrors(userController.createUser)
 );
-router.post('/login', authController.userLogin);
+router.post('/users/login', 
+  authController.requiresLogout, 
+  authController.userLogin
+);
+router.get('/users/logout', 
+  authController.requiresLogin, 
+  authController.userLogout
+);
 
 //review routes
 
