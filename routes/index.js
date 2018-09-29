@@ -50,7 +50,7 @@ router.get('/users/logout',
 );
 
 //review routes
-router.post('/reviews/:storeId',
+router.post('/reviews/:cafeId',
   authController.requiresLogin,
   catchErrors(reviewController.createReview)
 );

@@ -37,7 +37,7 @@ authController.requiresLogin = (req, res, next) => {
   if (req.session && req.session.userId) {
     return next();
   } else {
-    const error = new Error('You must be logged in to view this page!');
+    const error = new Error('Oops! You need to be logged in to do that!');
     error.status = 400;
     return next(error);
   }
