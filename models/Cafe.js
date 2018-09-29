@@ -57,6 +57,19 @@ CafeSchema.pre('save', async function(next){
   next();
 });
 
+/**
+ * $unwind will give an instance of the cafe for each tag it has, 1 store will be returned 3 times if it has 3 different tags
+ * $group is grouping everything by its tag field --> then a new field, "count" is created in each group and everytime a new item is added to the group it adds 1 to the count
+ * $sort will sort the tags by most popular (descending)
+ */
+CafeSchema.statics.getTagsList = function(){
+  return this.aggregate([
+    {$unwind: '$tags'},
+    {$group: { _id: '$tags', count: { $sum: 1} } },
+    { $sort: {count: -1} }
+  ]);
+};
+
 const Cafe = mongoose.model('Cafe', CafeSchema);
 
 module.exports = Cafe;

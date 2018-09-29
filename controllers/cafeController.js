@@ -40,8 +40,19 @@ cafeController.updateCafe = async (req ,res) => {
         new: true, //return the new updated cafe instead of the old one
         runValidators: true //run validation on updates as well as creating cafes
     }).exec();
-    res.location(`/cafe/${cafe._id}`);
+    res.location(`/cafe/${cafe.slug}`);
     res.sendStatus(204);
+};
+
+//use aggregations to filter the cafes by their tags
+//can be used on a page to show the number of cafes that belong to a certain tag
+cafeController.getCafesByTag = async (req, res) => {
+    const {tag} = req.params;
+    const tagQuery = tag || { $exists: true }; //either use the tag in the params or find all stores that have atleast one tag in the array
+    const tagsPromise = Cafe.getTagsList();
+    const storesPromise = Cafe.find({tags: tagQuery});
+    const [tags, stores] = await Promise.all([tagsPromise, storesPromise]);
+    res.json({tags, stores});
 };
 
 module.exports = cafeController;
