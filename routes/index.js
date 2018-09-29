@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const cafeController = require('../controllers/cafeController');
 const authController = require('../controllers/authController');
+const reviewController = require('../controllers/reviewController');
 const {catchErrors} = require('../handlers/errorHandlers');
 const middleware = require('../middleware');
 
@@ -32,7 +33,6 @@ router.put('/cafes/:cafeId/edit',
 router.get('/cafes/tags', catchErrors(cafeController.getCafesByTag));
 router.get('/cafes/tags/:tag', catchErrors(cafeController.getCafesByTag));
 
-
 // user routes
 router.post('/users/register',
   authController.requiresLogout,
@@ -50,6 +50,9 @@ router.get('/users/logout',
 );
 
 //review routes
-
+router.post('/reviews/:storeId',
+  authController.requiresLogin,
+  catchErrors(reviewController.createReview)
+);
 
 module.exports = router;

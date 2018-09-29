@@ -13,6 +13,7 @@ const port = process.env.PORT || 5000;
 //import models
 require('./models/User');
 require('./models/Cafe');
+require('./models/Review');
 const router = require('./routes');
 
 const app = express();
