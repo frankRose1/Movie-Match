@@ -3,9 +3,10 @@ body {
   padding: 0;
   font-family: sans-serif;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
-.create-cafe-form {
+.styled-form {
   margin: 20px auto;
   width: 80%;
   text-align: center;
@@ -15,7 +16,7 @@ body {
 }
 
 @media (min-width: 600px) {
-  .create-cafe-form {
+  .styled-form {
     width: 550px;
   }
 }

@@ -22,7 +22,8 @@ cafeController.getCafes = async (req, res) => {
 
 cafeController.getIndividualCafe = async (req, res) => {
     const {cafeSlug} = req.params;
-    const cafe = await Cafe.findOne({slug: cafeSlug});
+    const cafe = await Cafe.findOne({slug: cafeSlug})
+                            .populate('user');
     //if a specific slug does not return a cafe handle it manually
     if (!cafe) return next();
     res.status(200);
@@ -53,6 +54,12 @@ cafeController.getCafesByTag = async (req, res) => {
     const storesPromise = Cafe.find({tags: tagQuery});
     const [tags, stores] = await Promise.all([tagsPromise, storesPromise]);
     res.json({tags, stores});
+};
+
+//GET /cafes/top-rated
+cafeController.getTopCafes = async (req, res) => {
+    const cafes = await Cafe.getHighestRated();
+    res.json(cafes);
 };
 
 

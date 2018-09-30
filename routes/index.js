@@ -32,6 +32,7 @@ router.put('/cafes/:cafeId/edit',
 );
 router.get('/cafes/tags', catchErrors(cafeController.getCafesByTag));
 router.get('/cafes/tags/:tag', catchErrors(cafeController.getCafesByTag));
+router.get('/cafes/top-rated', catchErrors(cafeController.getTopCafes));
 
 // user routes
 router.post('/users/register',

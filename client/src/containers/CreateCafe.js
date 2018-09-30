@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Input from '../components/UI/Input';
-import axios from 'axios';
+import axios from '../axios';
 
 class CreateCafe extends Component {
   state = {
@@ -125,7 +125,7 @@ class CreateCafe extends Component {
     }
 
     return (
-      <form className="create-cafe-form" action="/cafes" method="POST" onSubmit={this.handleSubmit}>
+      <form className="styled-form" method="post" onSubmit={this.handleSubmit}>
         <h2>Tell Us About Your Awesome Cafe</h2>
           {formElementsArray.map(formEl => (
             <Input

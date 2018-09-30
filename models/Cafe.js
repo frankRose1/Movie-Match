@@ -19,6 +19,11 @@ const CafeSchema = new Schema({
     type: String,
     trim: true
   },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: 'A logged in user is required!'
+  },
   tags: [String],
   created: {
     type: Date,
@@ -40,6 +45,9 @@ const CafeSchema = new Schema({
     }
   },
   photo: String
+}, {
+  toJSON: {virtuals: true},
+  toObject: {virtuals: true}
 });
 
 CafeSchema.pre('save', async function(next){
@@ -57,18 +65,48 @@ CafeSchema.pre('save', async function(next){
   next();
 });
 
-/**
- * $unwind will give an instance of the cafe for each tag it has, 1 store will be returned 3 times if it has 3 different tags
- * $group is grouping everything by its tag field --> then a new field, "count" is created in each group and everytime a new item is added to the group it adds 1 to the count
- * $sort will sort the tags by most popular (descending)
- */
+
 CafeSchema.statics.getTagsList = function(){
   return this.aggregate([
+    // $unwind will give an instance of the cafe for each tag it has, 1 store will be returned 3 times if it has 3 different tags
     {$unwind: '$tags'},
+    //group is grouping everything by its tag field --> then a new field, "count" is created in each group and everytime a new item is added to the group it adds 1 to the count
     {$group: { _id: '$tags', count: { $sum: 1} } },
+    //sort will sort the tags by most popular (descending)
     { $sort: {count: -1} }
   ]);
 };
+
+CafeSchema.statics.getHighestRated = function(){
+  return this.aggregate([
+    //1 lookup stores and populate the reviews. (cant use virtuals because aggregate is a lower level mongoDB function)
+    { $lookup: {from: 'reviews', localField: '_id', foreignField: 'cafe', as: 'reviews'} },
+    // 2 match cafes who have 2 or more reviews (looking to see if the reviews.1 index exists)
+    { $match: {'reviews.1': {$exists: true} } },
+    // 3 add a field called averageRating that gets the average of all of the .rating properies in the reviews array
+    { $addFields: { averageRating: {$avg: '$reviews.rating'} } },
+    // 4 sort by highest rated
+    {$sort: {averageRating: -1}},
+    // 5 limit to top 10
+    {$limit: 10}
+  ]);
+};
+
+//by default virtuals will not be inclued with the queried results --> need to set "toJson" and "toObject" on schema
+CafeSchema.virtual('reviews', {
+  ref: 'Review', //model to link to
+  localField: '_id', // field on the Cafe model
+  foreignField: 'cafe' //field on the Review model
+});
+
+//auto populate virtuals
+function autoPopulate(next){
+  this.populate('reviews');
+  next();
+}
+CafeSchema.pre('find', autoPopulate);
+CafeSchema.pre('findOne', autoPopulate);
+
 
 const Cafe = mongoose.model('Cafe', CafeSchema);
 
