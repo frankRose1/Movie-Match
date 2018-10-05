@@ -5,26 +5,38 @@ import axios from '../axios';
 class Auth extends Component {
 
   state = {
+    loading: false,
+    formIsValid: false,
     controls: {
       email: {
         elType: 'input',
         elConfig: {
           type: 'email',
-          placeholder: 'Your Email Address',
+          placeholder: 'Email Address',
           name: 'email',
           id: 'email'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       },
       password: {
         elType: 'input',
         elConfig: {
           type: 'password',
-          placeholder: 'Your Password',
+          placeholder: 'Password',
           name: 'password',
           id: 'password'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       }
     }
   }
@@ -46,10 +58,13 @@ class Auth extends Component {
       });
     }
 
-    const authForm = formElementsArray.map(formEl => (
+    const authFormInputs = formElementsArray.map(formEl => (
       <Input 
         handleChange={ (e) => this.handleChange(e, formEl.id) }
         key={formEl.id}
+        invalid={!formEl.config.valid}
+        touched={formEl.config.touched}
+        shouldValidate={formEl.config.validation}
         elementType={formEl.config.elType}
         elementConfig={formEl.config.elConfig}
         value={formEl.config.value}/>
@@ -57,7 +72,11 @@ class Auth extends Component {
 
     return (
       <form className="styled-form" method="post" onSubmit={this.handleSubmit}>
-        {authForm}
+        <h2>Sign In</h2>
+          <fieldset disabled={this.state.loading} aria-busy={this.state.loading}>
+            {authFormInputs}
+            <button type="submit" disabled={!this.state.formIsValid}>Sign In</button>
+          </fieldset>
       </form>
     );
   }

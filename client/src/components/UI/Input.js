@@ -1,12 +1,12 @@
 import React from 'react';
 
-/**
- * Create dynamic inputs
- *  check the inputType to create dynamic inputs
- * spread the props to set the html attributes
- */
 const Input = props => {
   let inputElement = null;
+  const inputClasses = ['styled-input'];
+
+  if (props.invalid && props.shouldValidate && props.touched) {
+    inputClasses.push('invalid');
+  }
 
   switch(props.elementType){
     case ('input'):
@@ -39,7 +39,7 @@ const Input = props => {
   }
 
   return (
-    <div className="styled-input">
+    <div className={inputClasses.join(" ")}>
       <label htmlFor={props.elementConfig.id}>{props.label}</label>
       {inputElement}
     </div>

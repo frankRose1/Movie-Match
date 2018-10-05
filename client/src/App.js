@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
 import CreateCafe from './containers/CreateCafe';
+import Layout from './components/Layout';
 
 class App extends Component {
   state = {
@@ -29,10 +29,11 @@ class App extends Component {
 
   render() {
 
-
     return (
       <div className="App">
+      <Layout>
         <CreateCafe />
+      </Layout>
       </div>
     );
   }

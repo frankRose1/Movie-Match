@@ -5,6 +5,8 @@ import axios from '../axios';
 class CreateCafe extends Component {
   state = {
     loading: false,
+    error: false,
+    formIsValid: false,
     createCafeForm: {
       name: {
         elType: 'input',
@@ -14,7 +16,12 @@ class CreateCafe extends Component {
           name: 'name',
           id: 'name'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       },
       description: {
         elType: 'textarea',
@@ -45,7 +52,12 @@ class CreateCafe extends Component {
           name: "location[address]",
           id: 'address'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       }, 
       lng: {
         elType: 'input',
@@ -55,7 +67,12 @@ class CreateCafe extends Component {
           name: "location[coordinates][0]",
           id: 'lng'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       }, 
       lat: {
         elType: 'input',
@@ -65,7 +82,12 @@ class CreateCafe extends Component {
           name: "location[coordinates][1]",
           id: 'lat'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       },
       method: {
         elType: 'select',
@@ -89,8 +111,16 @@ class CreateCafe extends Component {
       ...updatedForm[elementIdentifier]
     };
     updatedFormEl.value = e.target.value;
+    updatedFormEl.valid = this.checkValidity(updatedFormEl.value, updatedFormEl.validation);
     updatedForm[elementIdentifier] = updatedFormEl;
-    this.setState({createCafeForm: updatedForm});
+    //check overall form validity
+    let formIsValid = true
+    for (let key in updatedForm) {
+      if(updatedForm[key].hasOwnProperty('valid')){
+        formIsValid = updatedForm[key].valid && formIsValid;
+      }
+    }
+    this.setState({createCafeForm: updatedForm, formIsValid: formIsValid});
   };
 
   handleSubmit = e => {
@@ -112,7 +142,24 @@ class CreateCafe extends Component {
         console.log(res);
         this.setState({loading: false});
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.setState({error: true, loading: false});
+      });
+  };
+
+  /**
+   * @param {string} value - e.target.value of the form input
+   * @param {object} rules - "validation" object in the form elemen config in state
+   */
+  checkValidity = (value, rules) => {
+    if (!rules) return true; //some elements will not have a validation(rules) key
+    let isValid = true;
+    //will only be valid if the rule is satisfied and isValid is already set to true(will matter if more rules are incorporated)
+    if (rules.required) {
+      isValid = value.trim() !== '' && isValid;
+    }
+    return isValid;
   };
 
   render() {
@@ -124,18 +171,25 @@ class CreateCafe extends Component {
       });
     }
 
+    const formInputs = formElementsArray.map(formEl => (
+      <Input
+        handleChange={ (e) => this.handleChange(e, formEl.id) }
+        key={formEl.id}
+        invalid={!formEl.config.valid}
+        touched={formEl.config.touched}
+        shouldValidate={formEl.config.validation}
+        elementType={formEl.config.elType}
+        elementConfig={formEl.config.elConfig}
+        value={formEl.config.value}/>
+    ));
+
     return (
       <form className="styled-form" method="post" onSubmit={this.handleSubmit}>
         <h2>Tell Us About Your Awesome Cafe</h2>
-          {formElementsArray.map(formEl => (
-            <Input
-              handleChange={ (e) => this.handleChange(e, formEl.id) }
-              key={formEl.id}
-              elementType={formEl.config.elType}
-              elementConfig={formEl.config.elConfig}
-              value={formEl.config.value}/>
-          ))}
-          <input type="submit" value="Create Cafe" />
+          <fieldset disabled={this.state.loading} aria-busy={this.state.loading}>
+            {formInputs}
+            <button type="submit" disabled={!this.state.formIsValid}>Create Cafe!</button>
+          </fieldset>
       </form>
     );
   }

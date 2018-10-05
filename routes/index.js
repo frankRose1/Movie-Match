@@ -49,6 +49,14 @@ router.get('/users/logout',
   authController.requiresLogin, 
   authController.userLogout
 );
+router.get('/users/account', 
+  authController.requiresLogin,
+  catchErrors(userController.userAccount)
+);
+router.put('/users/account', 
+  authController.requiresLogin,
+  catchErrors(userController.updateUserAccount)
+);
 
 //review routes
 router.post('/reviews/:cafeId',
