@@ -57,6 +57,8 @@ router.put('/users/account',
   authController.requiresLogin,
   catchErrors(userController.updateUserAccount)
 );
+router.post('/users/account/reset', authController.requiresLogout, catchErrors(authController.forgotPassword));
+router.put('/users/account/reset/:resetToken', authController.requiresLogout, catchErrors(authController.resetPassword));
 
 //review routes
 router.post('/reviews/:cafeId',
