@@ -5,6 +5,7 @@ const paths = [
   'cafes',
   'tags',
   'top',
+  'add',
   'register',
   'login'
 ];

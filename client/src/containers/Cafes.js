@@ -20,10 +20,6 @@ class Cafes extends Component {
       .catch(err => {
         this.setState({error: err, loading: false});
       });
-    this.setState({
-      loading: false,
-      cafes: cafes.data
-    });
   };
 
   componentDidMount(){

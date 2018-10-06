@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({extended: true})); //allows using inputs w/nested
 app.use(bodyParser.json());
 app.use(expressValidator());
 
-app.use('/', router);
+app.use('/api/v1', router);
 
 app.use(errorHandlers.notFound);
 

@@ -58,7 +58,7 @@ authController.forgotPassword = async (req, res) => {
   // TODO: email the token to the user
   const resetUrl = `http://${req.headers.host}/users/account/reset/${user.resetPasswordToken}`;
   res.json({link: resetUrl});
-  //res.json({message: 'Your password reset link was sent to your email address.'});
+  //res.json({message: `If ${req.body.email} is the email address for your account, you will receive an email with instructions for resetting your password.`});
 };
 
 // PUT /users/account/reset/:resetToken

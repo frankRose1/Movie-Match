@@ -15,7 +15,6 @@ const middleware = require('../middleware');
  */
 
 //cafe routes
-router.get('/', catchErrors(cafeController.getCafes));
 router.get('/cafes', catchErrors(cafeController.getCafes));
 router.get('/cafe/:cafeSlug', catchErrors(cafeController.getIndividualCafe));
 router.post('/cafes',

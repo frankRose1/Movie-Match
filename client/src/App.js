@@ -9,7 +9,6 @@ class App extends Component {
   
   render() {
     return (
-      <div>
       <Layout>
         <Switch>
           <Route exact path="/" component={Cafes}/>
@@ -18,7 +17,6 @@ class App extends Component {
           <Route path="/login" component={Auth}/>
         </Switch>
       </Layout>
-      </div>
     );
   }
 }
