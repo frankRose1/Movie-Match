@@ -1,13 +1,23 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
+
+const paths = [
+  'cafes',
+  'tags',
+  'top',
+  'register',
+  'login'
+];
 
 const Nav = () => (
   <nav>
-    <a href="/cafes">Cafes</a>
-    <a href="/tags">Tags</a>
-    <a href="/top">Top</a>
-    <a href="/map">Add</a>
-    <a href="/register"></a>
-    <a href="/login"></a>
+    <ul>
+      {paths.map(path => (
+        <li key={path}>
+          <NavLink to={`/${path}`}>{path}</NavLink>
+        </li>
+      ))}
+    </ul>
   </nav>
 );
 
