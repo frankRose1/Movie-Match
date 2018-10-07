@@ -5,7 +5,20 @@ import CreateCafe from './containers/CreateCafe';
 import Cafes from './containers/Cafes';
 import Auth from './containers/Auth';
 
+//this is where we want to check for a token in local storage, to see if a user is signed in
+  //this is because this comp is always loaded
+
 class App extends Component {
+
+  // maybe update state in this component to be authenticated: true ?
+  checkAuthState = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      //user is signed out
+    } else {
+      //user is signed in
+    }
+  };
   
   render() {
     return (

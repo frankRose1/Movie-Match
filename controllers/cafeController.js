@@ -6,7 +6,6 @@ cafeController = {};
 // POST /cafes ==> send 201 & redirect user to "/"
 cafeController.createCafe = async (req, res) => {
     //reference the logged in user creating the store
-    console.log(req.body);
     req.body.user = req.session.userId;
     const cafe = await new Cafe(req.body);
     await cafe.save();

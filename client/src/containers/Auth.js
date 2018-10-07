@@ -45,13 +45,21 @@ class Auth extends Component {
     }
   }
 
-  handleChange = (e, formElement) => {
-
-  };
-
+  
   addToState = e => {
     this.setState({ [e.target.name] : e.target.value });
   }
+
+  // to be used on logout
+  removeTokenExample = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('someOtherField');
+  };
+
+  storeAuthToken = (resData) => {
+    console.log(resData);
+    // localStorage.setItem('token', 'tokendata');
+  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -62,7 +70,7 @@ class Auth extends Component {
     };
     axios.post('/users/login', data)
       .then(res => {
-        console.log(res);
+        this.storeAuthToken(res);
         this.setState({loading: false, email: '', password: ''});
       })
       .catch(err => {

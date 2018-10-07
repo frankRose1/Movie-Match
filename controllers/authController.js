@@ -3,6 +3,7 @@
  */
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const jwt = require('jsonwebtoken');
 const {randomBytes} = require('crypto');
 const { promisify } = require('util');
 const authController = {};
@@ -20,7 +21,11 @@ authController.userLogin = (req, res, next) => {
         return next(error);
       }
       //log the user in
-      req.session.userId = user._id;
+      const token = jwt.sign({ userId: user._id }, process.env.APP_SECRET);
+      res.cookie('token', token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 365,
+      });
       res.location("/");
       res.sendStatus(200);
     });
@@ -33,13 +38,8 @@ authController.userLogin = (req, res, next) => {
 
 // GET /users/logout
 authController.userLogout = (req, res, next) => {
-  //log the user out by destroying the session
-  if (req.session) {
-    req.session.destroy( err => {
-      if (err) return next(err);
-      res.location("/").sendStatus(200);
-    });
-  }
+  res.clearCookie('token');
+  res.location('/').sendStatus(200);
 };
 
 //POST /users/reset
@@ -86,14 +86,16 @@ authController.resetPassword = async (req, res) => {
   user.resetPasswordExpiry = null;
   await user.save();
   //sign the user in
-  req.session.userId = user._id;
+  const token = jwt.sign({ userId: user._id }, process.env.APP_SECRET);
+  res.cookie('token', token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 365,
+  });
   res.location('/').sendStatus(200);
 };
 
 authController.requiresLogin = (req, res, next) => {
-  console.log(req.body);
-  console.log(req.session, req.session.userId);
-  if (req.session && req.session.userId) {
+  if (req.userId) {
     return next();
   } else {
     const error = new Error('Oops! You need to be logged in to do that!');
@@ -104,7 +106,7 @@ authController.requiresLogin = (req, res, next) => {
 
 //to protect routes such as login and register
 authController.requiresLogout = (req, res, next) => {
-  if (req.session && req.session.userId) {
+  if (req.userId) {
     return res.redirect('/');
   } else {
     next();
