@@ -14,8 +14,7 @@ const paths = [
   'tags',
   'top',
   'add',
-  'register',
-  'login',
+  'account'
 ];
 
 const Nav = () => (

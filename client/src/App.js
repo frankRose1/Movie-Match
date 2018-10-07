@@ -3,7 +3,7 @@ import {Route, Switch} from 'react-router-dom';
 import Layout from './components/Layout';
 import CreateCafe from './containers/CreateCafe';
 import Cafes from './containers/Cafes';
-import Auth from './containers/Auth';
+import Account from './components/Account';
 
 //this is where we want to check for a token in local storage, to see if a user is signed in
   //this is because this comp is always loaded
@@ -27,7 +27,7 @@ class App extends Component {
           <Route exact path="/" component={Cafes}/>
           <Route path="/add" component={CreateCafe} />
           <Route path="/cafes" component={Cafes}/>
-          <Route path="/login" component={Auth}/>
+          <Route path="/account" component={Account}/>
         </Switch>
       </Layout>
     );
