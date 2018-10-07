@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Form from '../components/styles/FormStyles';
-import Input from '../components/UI/Input';
+import SubmitButton from '../components/UI/SubmitButton';
 import axios from '../axios';
 
 class Auth extends Component {
@@ -10,39 +10,7 @@ class Auth extends Component {
     formIsValid: false,
     error: false,
     email: '',
-    password: '',
-    controls: {
-      email: {
-        elType: 'input',
-        elConfig: {
-          type: 'email',
-          placeholder: 'Email Address',
-          name: 'email',
-          id: 'email'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
-      },
-      password: {
-        elType: 'input',
-        elConfig: {
-          type: 'password',
-          placeholder: 'Password',
-          name: 'password',
-          id: 'password'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
-      }
-    }
+    password: ''
   }
   
   addToState = e => {
@@ -73,25 +41,6 @@ class Auth extends Component {
   };
 
   render() {
-    const formElementsArray = [];
-    for (let key in this.state.controls) {
-      formElementsArray.push({
-        id: key,
-        config: this.state.controls[key]
-      });
-    }
-
-    const authFormInputs = formElementsArray.map(formEl => (
-      <Input 
-        handleChange={ (e) => this.handleChange(e, formEl.id) }
-        key={formEl.id}
-        invalid={!formEl.config.valid}
-        touched={formEl.config.touched}
-        shouldValidate={formEl.config.validation}
-        elementType={formEl.config.elType}
-        elementConfig={formEl.config.elConfig}
-        value={formEl.config.value}/>
-    ));
 
     return (
       <Form className="styled-form" method="post" onSubmit={this.handleSubmit}>
@@ -121,7 +70,9 @@ class Auth extends Component {
                     required/>
                 </label>
               </div>
-            <button type="submit" disabled={this.state.loading}>Sign In</button>
+            <SubmitButton 
+              disabledBtn={this.state.loading}
+              text="Sign In!" />
           </fieldset>
       </Form>
     );
