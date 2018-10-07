@@ -91,6 +91,8 @@ authController.resetPassword = async (req, res) => {
 };
 
 authController.requiresLogin = (req, res, next) => {
+  console.log(req.body);
+  console.log(req.session, req.session.userId);
   if (req.session && req.session.userId) {
     return next();
   } else {

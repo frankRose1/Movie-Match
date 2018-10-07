@@ -4,6 +4,7 @@ require('dotenv').config({path: '.env'})
 const express = require('express');
 const mongoose = require('mongoose');
 const logger = require('morgan');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const session = require('express-session');
@@ -25,10 +26,13 @@ db.on('error', err => {
     console.error(`Failed to connect to database: ${err.message}`);
 });
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", `${process.env.CLIENT_URL}`);
-    next();
-});
+app.use(cors( {origin: process.env.CLIENT_URL} ));
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", `${process.env.CLIENT_URL}`);
+//     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS, GET, PUT, DELETE');
+//     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 
 app.use(session({
     secret: process.env.APP_SECRET,

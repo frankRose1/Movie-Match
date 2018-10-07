@@ -11,27 +11,37 @@ class CreateCafe extends Component {
     name: '',
     image: '',
     largeImage: '',
-    description: ''
+    description: '',
+    address: '',
+    lat: '',
+    lng: ''
   }
 
   handleSubmit = e => {
     e.preventDefault();
     this.setState({loading: true});
-    const data = {};
-    for (let key in this.state.createCafeForm) {
-      data[this.state.createCafeForm[key].elConfig.name] = this.state.createCafeForm[key].value;
-    }
-    const axiosConfig = {
-      url: '/cafes',
-      data,
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+    const data = {
+      name: this.state.name,
+      image: this.state.image,
+      largeImage: this.state.largeImage,
+      description: this.state.description,
+      'location[address]': this.state.address,
+      'location[coordinates][0]': this.state.lng,
+      'location[coordinates][1]': this.state.lat
     };
-    axios.post(axiosConfig)
+    axios.post('/cafes', data)
       .then(res => {
         console.log(res);
-        this.setState({loading: false});
+        this.setState({
+          loading: false,
+          name: '',
+          image: '',
+          largeImage: '',
+          description: '',
+          address: '',
+          lat: '',
+          lng: ''
+        });
       })
       .catch(err => {
         console.log(err);
@@ -108,6 +118,42 @@ class CreateCafe extends Component {
                   id="description"
                   value={this.state.description} 
                   placeholder="Tell the world what makes your Cafe unique" 
+                  onChange={this.addToState} 
+                  required/>
+              </label>
+            </div>
+            <div>
+              <label htmlFor="address">
+                <input 
+                  type="text"
+                  name="address" 
+                  id="address"
+                  value={this.state.address} 
+                  placeholder="Address" 
+                  onChange={this.addToState} 
+                  required/>
+              </label>
+            </div>
+            <div>
+              <label htmlFor="lat">
+                <input 
+                  type="text"
+                  name="lat" 
+                  id="lat"
+                  value={this.state.lat} 
+                  placeholder="Latitude" 
+                  onChange={this.addToState} 
+                  required/>
+              </label>
+            </div>
+            <div>
+              <label htmlFor="lng">
+                <input
+                  type="text"
+                  name="lng" 
+                  id="lng"
+                  value={this.state.lng} 
+                  placeholder="Longitude" 
                   onChange={this.addToState} 
                   required/>
               </label>
