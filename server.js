@@ -25,6 +25,11 @@ db.on('error', err => {
     console.error(`Failed to connect to database: ${err.message}`);
 });
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", `${process.env.CLIENT_URL}`);
+    next();
+});
+
 app.use(session({
     secret: process.env.APP_SECRET,
     resave: true,

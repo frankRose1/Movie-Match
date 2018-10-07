@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import axios from '../axios';
+import styled from 'styled-components';
+import Cafe from '../components/Cafe';
 import Loading from '../components/UI/Loading';
 
-/**most components that are fetching data will look like this */
+const CafeGrid = styled.ul`
+  display: grid;
+  grid-gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+`;
+
+
 class Cafes extends Component {
 
   state = {
@@ -24,19 +32,23 @@ class Cafes extends Component {
 
   componentDidMount(){
     //make api call
-    //this.fetchCafes();
+    this.fetchCafes();
   }
 
   render() {
-    let cafesContent;
+    let cafesContent = <div>test</div>;
     if (this.state.loading) {
       cafesContent = <Loading />
     } else if (this.state.error) {
       cafesContent = <p>Shoot! {this.state.error.message}</p>;
     } else {
-      cafesContent = this.state.cafes.map(cafe => (
-        <div>Cafe Component</div>
-      ));
+      cafesContent = 
+        <CafeGrid>
+          {this.state.cafes.map(cafe => (
+            <Cafe cafe={ {name: 'coffee shop'}}/>
+          ))}
+        </CafeGrid>
+      ;
     }
 
     return (

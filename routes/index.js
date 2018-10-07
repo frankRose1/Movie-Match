@@ -19,8 +19,6 @@ router.get('/cafes', catchErrors(cafeController.getCafes));
 router.get('/cafe/:cafeSlug', catchErrors(cafeController.getIndividualCafe));
 router.post('/cafes',
   authController.requiresLogin,
-  middleware.uploadPhoto,
-  catchErrors(middleware.resizePhoto),
   catchErrors(cafeController.createCafe)
 );
 //TODO: make sure the owner of the store is the one trying to update it

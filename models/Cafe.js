@@ -44,7 +44,14 @@ const CafeSchema = new Schema({
       trim: true
     }
   },
-  photo: String
+  image: {
+    type: String,
+    required: "Please provide an image of your cafe!"
+  },
+  largeImage: {
+    type: String,
+    required: "Please provide an image of your cafe!"
+  }
 }, {
   toJSON: {virtuals: true},
   toObject: {virtuals: true}
