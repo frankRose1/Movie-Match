@@ -25,9 +25,10 @@ class CreateCafe extends Component {
       image: this.state.image,
       largeImage: this.state.largeImage,
       description: this.state.description,
-      'location[address]': this.state.address,
-      'location[coordinates][0]': this.state.lng,
-      'location[coordinates][1]': this.state.lat
+      location: {
+        address: this.state.address,
+        coordinates: [parseInt(this.state.lng), parseInt(this.state.lat)]
+      }
     };
     axios.post('/cafes', data)
       .then(res => {

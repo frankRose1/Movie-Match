@@ -27,7 +27,10 @@ db.on('error', err => {
 });
 
 
-app.use(cors( {origin: process.env.CLIENT_URL} ));
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+}));
 // app.use((req, res, next) => {
 //     res.setHeader("Access-Control-Allow-Origin", `${process.env.CLIENT_URL}`);
 //     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS, GET, PUT, DELETE');

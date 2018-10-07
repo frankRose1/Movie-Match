@@ -44,20 +44,13 @@ class Auth extends Component {
       }
     }
   }
-
   
   addToState = e => {
     this.setState({ [e.target.name] : e.target.value });
   }
 
-  // to be used on logout
-  removeTokenExample = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('someOtherField');
-  };
-
-  storeAuthToken = (resData) => {
-    console.log(resData);
+  storeAuthToken = (res) => {
+    console.log(res);
     // localStorage.setItem('token', 'tokendata');
   };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {NavLink} from 'react-router-dom';
+import Logout from '../containers/Logout';
 
 const StyledList = styled.ul`
   display: grid;
@@ -14,7 +15,7 @@ const paths = [
   'top',
   'add',
   'register',
-  'login'
+  'login',
 ];
 
 const Nav = () => (
@@ -25,6 +26,7 @@ const Nav = () => (
           <NavLink to={`/${path}`}>{path}</NavLink>
         </li>
       ))}
+      <Logout />
     </StyledList>
   </nav>
 );

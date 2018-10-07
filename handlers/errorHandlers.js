@@ -22,6 +22,7 @@ errorHandlers.validationErrors = (err, req, res, next) => {
             errors.push(err.errors[key].message)
         }
     }
+    console.log(errors);
     //set the location to the page the user was on when errors occured
     res.location('back');
     res.status(400);
@@ -33,6 +34,7 @@ errorHandlers.validationErrors = (err, req, res, next) => {
 
 errorHandlers.globalErrorHandler = (err, req, res, next) => {
     res.status(err.status || 500);
+    console.log(err.message);
     res.json({error: err.message});
 };
 

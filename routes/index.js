@@ -7,13 +7,6 @@ const reviewController = require('../controllers/reviewController');
 const {catchErrors} = require('../handlers/errorHandlers');
 const middleware = require('../middleware');
 
-/**
- * Uploading & resizing images
- * will need to be implemented as middleware between creating and editing a store
- * multer for uploads (form/request will need to be ==> enctype="multipart/form-data")
- * jimp for resizing
- */
-
 //cafe routes
 router.get('/cafes', catchErrors(cafeController.getCafes));
 router.get('/cafe/:cafeSlug', catchErrors(cafeController.getIndividualCafe));

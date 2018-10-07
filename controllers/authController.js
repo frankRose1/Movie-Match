@@ -107,7 +107,9 @@ authController.requiresLogin = (req, res, next) => {
 //to protect routes such as login and register
 authController.requiresLogout = (req, res, next) => {
   if (req.userId) {
-    return res.redirect('/');
+    const error = new Error('You need to be logged out to do that!');
+    error.status = 400;
+    return next(error);
   } else {
     next();
   }
