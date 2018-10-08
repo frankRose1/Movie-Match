@@ -8,10 +8,10 @@ const LoadingStyles = styled.div`
   font-size: 10px;
   position: relative;
   text-indent: -9999em;
-  border-top: 1.1em solid rgba(51,85,17, 0.2);
-  border-right: 1.1em solid rgba(51,85,17, 0.2);
-  border-bottom: 1.1em solid rgba(51,85,17, 0.2);
-  border-left: 1.1em solid #335511;
+  border-top: 1.1em solid rgba(255,212,84, 0.2);
+  border-right: 1.1em solid rgba(255,212,84, 0.2);
+  border-bottom: 1.1em solid rgba(255,212,84, 0.2);
+  border-left: 1.1em solid ${props => props.theme.yellow};
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);

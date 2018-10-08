@@ -36,7 +36,7 @@ class Cafes extends Component {
   }
 
   render() {
-    let cafesContent = <div>test</div>;
+    let cafesContent = null;
     if (this.state.loading) {
       cafesContent = <Loading />
     } else if (this.state.error) {
@@ -45,7 +45,9 @@ class Cafes extends Component {
       cafesContent = 
         <CafeGrid>
           {this.state.cafes.map(cafe => (
-            <Cafe cafe={ {name: 'coffee shop'}}/>
+            <Cafe
+              key={cafe._id}
+              cafe={cafe}/>
           ))}
         </CafeGrid>
       ;
