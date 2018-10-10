@@ -15,11 +15,7 @@ router.post('/cafes',
   catchErrors(cafeController.createCafe)
 );
 //TODO: make sure the owner of the store is the one trying to update it
-router.put('/cafes/:cafeId/edit',
-  middleware.uploadPhoto,
-  catchErrors(middleware.resizePhoto),
-  catchErrors(cafeController.updateCafe)
-);
+router.put('/cafes/:cafeId/edit', authController.requiresLogin, catchErrors(cafeController.updateCafe));
 router.get('/cafes/tags', catchErrors(cafeController.getCafesByTag));
 router.get('/cafes/tags/:tag', catchErrors(cafeController.getCafesByTag));
 router.get('/cafes/top-rated', catchErrors(cafeController.getTopCafes));

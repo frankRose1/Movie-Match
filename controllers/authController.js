@@ -4,6 +4,7 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const jwt = require('jsonwebtoken');
+const mail = require('../handlers/mail');
 const {randomBytes} = require('crypto');
 const { promisify } = require('util');
 const authController = {};
@@ -55,10 +56,14 @@ authController.forgotPassword = async (req, res) => {
   user.resetPasswordToken = ( await randomBytesPromisified(20) ).toString('hex');
   user.resetPasswordExpiry = Date.now() + 3600000; //1 hour from now
   await user.save();
-  // TODO: email the token to the user
   const resetUrl = `http://${req.headers.host}/users/account/reset/${user.resetPasswordToken}`;
-  res.json({link: resetUrl});
-  //res.json({message: `If ${req.body.email} is the email address for your account, you will receive an email with instructions for resetting your password.`});
+  await mail.send({
+    user,
+    subject: 'Password Reset',
+    resetUrl,
+    filename: 'password-reset'
+  });
+  res.json({message: `If ${req.body.email} is the email address for your account, you will receive an email with instructions for resetting your password.`});
 };
 
 // PUT /users/account/reset/:resetToken

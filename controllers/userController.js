@@ -26,7 +26,6 @@ userController.userAccount = async (req, res) => {
 
 // PUT /users/account 204
 userController.updateUserAccount = async (req, res) => {
-  // not updating password at this route
   const updates = {
     name: req.body.name,
     email: req.body.email
