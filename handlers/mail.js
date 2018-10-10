@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 const pug = require('pug');
 const juice = require('juice'); //inlines the styles for email
 const htmlToText = require('html-to-text');
-const {promisify} = require('es6-promisify');
 
 const transport = nodemailer.createTransport({
   port: process.env.MAIL_PORT,
@@ -30,6 +29,5 @@ exports.send = async options => {
     html,
     text
   };
-  const sendMail = promisify(transport.sendMail, transport);
-  return sendMail(mailOptions);
+  return transport.sendMail(mailOptions);
 };

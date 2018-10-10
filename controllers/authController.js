@@ -56,7 +56,7 @@ authController.forgotPassword = async (req, res) => {
   user.resetPasswordToken = ( await randomBytesPromisified(20) ).toString('hex');
   user.resetPasswordExpiry = Date.now() + 3600000; //1 hour from now
   await user.save();
-  const resetUrl = `http://${req.headers.host}/users/account/reset/${user.resetPasswordToken}`;
+  const resetUrl = `http://${req.headers.host}/api/v1/users/account/reset/${user.resetPasswordToken}`;
   await mail.send({
     user,
     subject: 'Password Reset',
