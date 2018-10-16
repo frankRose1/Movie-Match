@@ -14,7 +14,7 @@ const StyledNav = styled.nav`
     display: block;
     border-bottom: 5px solid transparent;
     transition: 0.4s;
-    &:hover, a.active {
+    &:hover, .active {
       border-bottom-color: rgba(0,0,0,0.2);
       border-right-color: rgba(0,0,0,0.05);
     }

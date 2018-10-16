@@ -15,7 +15,6 @@ const Account = () => {
     <FormGrid>
       <SignIn />
       <SignUp />
-      <PasswordReset />
     </FormGrid>
   );
 };
