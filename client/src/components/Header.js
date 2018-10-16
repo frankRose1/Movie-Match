@@ -8,6 +8,8 @@ import Search from '../containers/Search';
 const StyledHeader = styled.header`
   display: grid;
   grid-template-columns: 150px 1fr 2fr;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+  background: ${props => props.theme.black};
 `;
 
 const Header = () => {

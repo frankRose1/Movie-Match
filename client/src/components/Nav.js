@@ -1,13 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import {NavLink} from 'react-router-dom';
+import StyledNav from './styles/NavStyles';
 import Logout from '../containers/Logout';
 
-const StyledList = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  list-style: none;
-`;
 
 const paths = [
   'cafes',
@@ -18,16 +13,16 @@ const paths = [
 ];
 
 const Nav = () => (
-  <nav>
-    <StyledList>
+  <StyledNav>
+    <ul>
       {paths.map(path => (
         <li key={path}>
           <NavLink to={`/${path}`}>{path}</NavLink>
         </li>
       ))}
       <Logout />
-    </StyledList>
-  </nav>
+    </ul>
+  </StyledNav>
 );
 
 export default Nav;

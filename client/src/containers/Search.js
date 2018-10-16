@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import StyledSearch from '../components/styles/SearchStyles';
 
 class Search extends Component {
   render() {
     return (
-      <input type="search" placeholer="Im a search barrrr"/>
+      <StyledSearch>
+        <input type="search" name="search" placeholder="Coffee, Fresh-Brewed, Free Wifi..."/>
+      </StyledSearch>
     );
   }
 }
