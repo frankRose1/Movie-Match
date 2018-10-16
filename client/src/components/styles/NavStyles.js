@@ -5,7 +5,25 @@ const StyledNav = styled.nav`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     list-style: none;
+    a, button {
+    background: ${props => props.theme.black};
+    color: white;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    text-transform: uppercase;
+    padding: 1.2rem 2rem 1rem 2rem;
+    display: block;
+    border-bottom: 5px solid transparent;
+    transition: 0.4s;
+    &:hover, a.active {
+      border-bottom-color: rgba(0,0,0,0.2);
+      border-right-color: rgba(0,0,0,0.05);
+    }
   }
+  button {
+    border: none;
+    outline: none;
+  }
+}
 `;
 
 export default StyledNav;

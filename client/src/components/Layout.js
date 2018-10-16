@@ -45,6 +45,9 @@ injectGlobal`
     text-decoration: none;
     color: #fff;
   }
+  button {
+    cursor: pointer;
+  }
 `;
 
 
