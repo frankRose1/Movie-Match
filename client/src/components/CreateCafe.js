@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Form from '../components/styles/FormStyles';
-import axios from '../axios';
+import axios from '../lib/axios';
 
 class CreateCafe extends Component {
   state = {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import axios from '../axios';
+import axios from '../lib/axios';
 import styled from 'styled-components';
-import Cafe from '../components/Cafe';
-import Loading from '../components/UI/Loading';
+import Cafe from './Cafe';
+import Loading from './UI/Loading';
 
 const CafeGrid = styled.ul`
   display: grid;

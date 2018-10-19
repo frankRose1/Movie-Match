@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import StyledSearch from '../components/styles/SearchStyles';
+import StyledSearch from './styles/SearchStyles';
 
 class Search extends Component {
   render() {

@@ -2,7 +2,7 @@ import React from 'react';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
-import Aux from '../hoc/Auxilliary';
+import Aux from '../lib/Auxilliary';
 
 const theme = {
   yellow: '#ffd454',

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import SignIn from '../containers/Auth';
-import SignUp from '../containers/SignUp';
+import SignIn from './Auth';
+import SignUp from './SignUp';
 
 const FormGrid = styled.div`
   display: grid;

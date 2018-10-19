@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Form from '../components/styles/FormStyles';
-import SubmitButton from '../components/UI/SubmitButton';
+import Form from './styles/FormStyles';
+import SubmitButton from './UI/SubmitButton';
 import {Route, Link, withRouter} from 'react-router-dom';
 import PasswordReset from './PasswordReset';
-import axios from '../axios';
+import axios from '../lib/axios';
 
 class Auth extends Component {
 

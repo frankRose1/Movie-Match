@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import axios from '../axios';
-import Form from '../components/styles/FormStyles';
-import SubmitButton from '../components/UI/SubmitButton';
+import axios from '../lib/axios';
+import Form from './styles/FormStyles';
+import SubmitButton from './UI/SubmitButton';
 
 class SignUp extends Component {
   state = {

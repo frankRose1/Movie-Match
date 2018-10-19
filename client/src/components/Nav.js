@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import StyledNav from './styles/NavStyles';
-import Logout from '../containers/Logout';
+import Logout from './Logout';
 
 
 const paths = [

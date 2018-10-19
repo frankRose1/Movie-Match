@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import Nav from './Nav';
-import Search from '../containers/Search';
+import Search from './Search';
 
 
 const StyledHeader = styled.header`

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import axios from '../axios';
-import SubmitButton from '../components/UI/SubmitButton';
-import Form from '../components/styles/FormStyles';
+import axios from '../lib/axios';
+import SubmitButton from './UI/SubmitButton';
+import Form from './styles/FormStyles';
 
 class PasswordReset extends Component {
   state = {
