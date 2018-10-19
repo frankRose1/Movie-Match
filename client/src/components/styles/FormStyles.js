@@ -42,6 +42,10 @@ const FormStyles = styled.form`
     cursor: not-allowed;
     color: #ccc;
   }
+  .reset-pw a {
+    color: lightblue;
+    margin-left: 5px;
+  }
 `;
 
 // .invalid input, 

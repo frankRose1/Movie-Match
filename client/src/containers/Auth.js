@@ -72,7 +72,7 @@ class Auth extends Component {
                       required/>
                   </label>
                 </div>
-                <p>Forgot your password? 
+                <p className="reset-pw">Forgot your password? 
                   <Link to={`${this.props.match.url}/reset`}>
                   Request a reset
                   </Link>
