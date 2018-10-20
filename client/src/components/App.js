@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Route, Switch} from 'react-router-dom';
 import Layout from './Layout';
-import CreateCafe from './containers/CreateCafe';
+import CreateCafe from './CreateCafe';
 import Cafes from './Cafes';
 import Account from './Account';
 

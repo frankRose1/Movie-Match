@@ -31,7 +31,6 @@ class Cafes extends Component {
   };
 
   componentDidMount(){
-    //make api call
     this.fetchCafes();
   }
 
