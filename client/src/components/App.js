@@ -5,6 +5,7 @@ import CreateCafe from './CreateCafe';
 import Cafes from './Cafes';
 import Account from './Account';
 import Logout from './Logout';
+import NotFound from './NotFound';
 
 class App extends Component {
 
@@ -26,6 +27,7 @@ class App extends Component {
           <Route path="/cafes" component={Cafes}/>
           <Route path="/account" component={Account}/>
           <Route path="/logout" component={Logout}/>
+          <Route component={NotFound}/>
         </Switch>
       </Layout>
     );

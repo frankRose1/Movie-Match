@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Form from './styles/FormStyles';
 import {connect} from 'react-redux';
 import SubmitButton from './UI/SubmitButton';
-import {Route, Link, withRouter} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {handleAuth} from '../actions/auth';
 import Error from './ErrorMessage';
 
@@ -28,44 +28,46 @@ class Auth extends Component {
 
   render() {
 
-    const {loading, error} = this.props;
+    const {loading, error, isAuthenticated} = this.props;
+
+    if (isAuthenticated) {
+      return <Redirect to="/" />;
+    }
 
     return (
-      <div>
-        <Form method="post" onSubmit={this.handleSubmit}>
-          <Error error={error}/>
-          <h2>Sign In</h2>
-            <fieldset disabled={loading} aria-busy={loading}>
+      <Form method="post" onSubmit={this.handleSubmit}>
+        <Error error={error}/>
+        <h2>Sign In</h2>
+          <fieldset disabled={loading} aria-busy={loading}>
+            <div>
+                <label htmlFor="email">
+                  <input 
+                    type="email" 
+                    name="email"
+                    id="email"
+                    value={this.state.email}
+                    placeholder="Email Address" 
+                    onChange={this.addToState} 
+                    required/>
+                </label>
+              </div>
               <div>
-                  <label htmlFor="email">
-                    <input 
-                      type="email" 
-                      name="email"
-                      id="email"
-                      value={this.state.email}
-                      placeholder="Email Address" 
-                      onChange={this.addToState} 
-                      required/>
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="password">
-                    <input 
-                      type="password" 
-                      name="password"
-                      id="password"
-                      value={this.state.password} 
-                      placeholder="Your password" 
-                      onChange={this.addToState} 
-                      required/>
-                  </label>
-                </div>
-              <SubmitButton 
-                disabledBtn={loading}
-                text="Sign In!" />
-            </fieldset>
-        </Form>
-      </div>
+                <label htmlFor="password">
+                  <input 
+                    type="password" 
+                    name="password"
+                    id="password"
+                    value={this.state.password} 
+                    placeholder="Your password" 
+                    onChange={this.addToState} 
+                    required/>
+                </label>
+              </div>
+            <SubmitButton 
+              disabledBtn={loading}
+              text="Sign In!" />
+          </fieldset>
+      </Form>
     );
   }
 }
@@ -73,7 +75,8 @@ class Auth extends Component {
 const mapStateToProps = ({auth}) => {
   return {
     loading: auth.loading,
-    error: auth.error
+    error: auth.error,
+    isAuthenticated: auth.token !== null
   }
 }
 
