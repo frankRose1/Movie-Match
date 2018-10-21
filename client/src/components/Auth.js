@@ -1,53 +1,41 @@
 import React, { Component } from 'react';
 import Form from './styles/FormStyles';
+import {connect} from 'react-redux';
 import SubmitButton from './UI/SubmitButton';
 import {Route, Link, withRouter} from 'react-router-dom';
-import PasswordReset from './PasswordReset';
-import axios from '../lib/axios';
+import {handleAuth} from '../actions/auth';
+import Error from './ErrorMessage';
 
 class Auth extends Component {
 
   state = {
-    loading: false,
     formIsValid: false,
-    error: false,
     email: '',
     password: ''
   }
   
   addToState = e => {
     this.setState({ [e.target.name] : e.target.value });
-  }
-
-  storeAuthToken = (res) => {
-    console.log(res);
-    // localStorage.setItem('token', 'tokendata');
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({loading: true});
-    const data = {
-      email: this.state.email,
+    this.props.dispatch(handleAuth({
+      email: this.state.email, 
       password: this.state.password
-    };
-    axios.post('/users/login', data)
-      .then(res => {
-        this.setState({loading: false, email: '', password: ''});
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({error: err, loading: false});
-      });
-  };
+    }));
+  }
 
   render() {
 
+    const {loading, error} = this.props;
+
     return (
       <div>
-        <Form className="styled-form" method="post" onSubmit={this.handleSubmit}>
+        <Form method="post" onSubmit={this.handleSubmit}>
+          <Error error={error}/>
           <h2>Sign In</h2>
-            <fieldset disabled={this.state.loading} aria-busy={this.state.loading}>
+            <fieldset disabled={loading} aria-busy={loading}>
               <div>
                   <label htmlFor="email">
                     <input 
@@ -72,20 +60,21 @@ class Auth extends Component {
                       required/>
                   </label>
                 </div>
-                <p className="reset-pw">Forgot your password? 
-                  <Link to={`${this.props.match.url}/reset`}>
-                  Request a reset
-                  </Link>
-                </p>
               <SubmitButton 
-                disabledBtn={this.state.loading}
+                disabledBtn={loading}
                 text="Sign In!" />
             </fieldset>
         </Form>
-        <Route path={`${this.props.match.url}/reset`} component={PasswordReset}/>
       </div>
     );
   }
 }
 
-export default withRouter(Auth);
+const mapStateToProps = ({auth}) => {
+  return {
+    loading: auth.loading,
+    error: auth.error
+  }
+}
+
+export default connect(mapStateToProps)(Auth);

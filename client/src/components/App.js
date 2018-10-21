@@ -4,6 +4,7 @@ import Layout from './Layout';
 import CreateCafe from './CreateCafe';
 import Cafes from './Cafes';
 import Account from './Account';
+import Logout from './Logout';
 
 class App extends Component {
 
@@ -24,6 +25,7 @@ class App extends Component {
           <Route path="/add" component={CreateCafe} />
           <Route path="/cafes" component={Cafes}/>
           <Route path="/account" component={Account}/>
+          <Route path="/logout" component={Logout}/>
         </Switch>
       </Layout>
     );

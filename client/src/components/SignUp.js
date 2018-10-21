@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from '../lib/axios';
+import axios from '../utils/axios';
 import Form from './styles/FormStyles';
 import SubmitButton from './UI/SubmitButton';
 

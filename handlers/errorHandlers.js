@@ -35,7 +35,7 @@ errorHandlers.validationErrors = (err, req, res, next) => {
 errorHandlers.globalErrorHandler = (err, req, res, next) => {
     res.status(err.status || 500);
     console.log(err.message);
-    res.json({error: err.message});
+    res.json({message: err.message});
 };
 
 module.exports = errorHandlers;

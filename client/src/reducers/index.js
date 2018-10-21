@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux';
-import authedUser from './auth';
+import auth from './auth';
 import cafes from './cafes';
 import {loadingBarReducer} from 'react-redux-loading';
 
 
 export default combineReducers({
-  authedUser,
+  auth,
   loadingBar: loadingBarReducer
 });

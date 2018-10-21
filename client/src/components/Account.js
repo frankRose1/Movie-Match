@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import SignIn from './Auth';
 import SignUp from './SignUp';
+import PasswordReset from './PasswordReset';
 
 const FormGrid = styled.div`
   display: grid;
@@ -14,6 +15,7 @@ const Account = () => {
   return (
     <FormGrid>
       <SignIn />
+      <PasswordReset />
       <SignUp />
     </FormGrid>
   );

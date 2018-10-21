@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {Component} from 'react';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
+import {connect} from 'react-redux';
+import {LoadingBar} from 'react-redux-loading';
 import Header from './Header';
 import Footer from './Footer';
-import Aux from '../lib/Auxilliary';
+import Aux from '../utils/Auxilliary';
 
 const theme = {
   yellow: '#ffd454',
@@ -50,17 +52,30 @@ injectGlobal`
   }
 `;
 
+class Layout extends Component {
 
-const Layout = props => (
-  <ThemeProvider theme={theme}>
-    <Aux>
-      <Header /> 
-      <main>
-        <Inner>{props.children}</Inner>
-      </main>
-      <Footer />
-    </Aux>
-  </ThemeProvider>
-);
+  render(){
+    const {isAuthenticated} = this.props;
+    return (
+      <ThemeProvider theme={theme}>
+        <Aux>
+          <LoadingBar />
+          <Header isAuth={isAuthenticated}/> 
+          <main>
+            <Inner>{this.props.children}</Inner>
+          </main>
+          <Footer />
+        </Aux>
+      </ThemeProvider>
+    )
+  }
+}
 
-export default Layout;
+const mapStateToProps = ({auth}) => {
+  return {
+    isAuthenticated: auth.token !== null
+  }
+}
+
+
+export default connect(mapStateToProps)(Layout);

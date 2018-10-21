@@ -1,29 +1,20 @@
 import React, { Component } from 'react';
-import axios from '../lib/axios';
+import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import {handleLogout} from '../actions/auth';
 
 class Logout extends Component {
 
-  removeToken = () => {
-    console.log('remove token');
-    // localStorage.removeItem('token');
-    // localStorage.removeItem('someOtherField');
-  };
-
-  handleLogout = () => {
-    axios.get('/users/logout')
-    .then(res => {
-      console.log(res);
-      this.removeToken();
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  };
+  componentDidMount() {
+    this.props.dispatch(handleLogout())
+  }
+  
   render() {
     return (
-      <button onClick={this.handleLogout}>Logout</button>
+      <Redirect to="/" />
     );
   }
 }
 
-export default Logout;
+
+export default connect()(Logout);
