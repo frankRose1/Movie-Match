@@ -1,37 +1,44 @@
-import React, { Component } from 'react';
-import {Route, Switch} from 'react-router-dom';
-import Layout from './Layout';
-import CreateCafe from './CreateCafe';
-import Cafes from './Cafes';
-import Account from './Account';
-import Logout from './Logout';
-import NotFound from './NotFound';
+import React, { Component } from "react";
+import { Route, Switch, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { checkAuthState } from "../actions/auth";
+import Layout from "./Layout";
+import CreateCafe from "./CreateCafe";
+import Cafes from "./Cafes";
+import Auth from "./Auth";
+import SignUp from "./SignUp";
+import Logout from "./Logout";
+import NotFound from "./NotFound";
+import ProtectedRoute from "./ProtectedRoute";
 
 class App extends Component {
+  componentDidMount() {
+    this.props.dispatch(checkAuthState());
+  }
 
-  checkAuthState = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      //user is signed out
-    } else {
-      //user is signed in
-    }
-  };
-  
   render() {
+    const { isAuthenticated } = this.props;
+    // protected routes need to be wrapped in switch
     return (
       <Layout>
+        <Route exact path="/" component={Cafes} />
+        <Route exact path="/cafes" component={Cafes} />
+        <Route exact path="/logout" component={Logout} />
+        <Route exact path="/login" component={Auth} />
+        <Route exact path="/regsiter" component={SignUp} />
         <Switch>
-          <Route exact path="/" component={Cafes}/>
-          <Route path="/add" component={CreateCafe} />
-          <Route path="/cafes" component={Cafes}/>
-          <Route path="/account" component={Account}/>
-          <Route path="/logout" component={Logout}/>
-          <Route component={NotFound}/>
+          <ProtectedRoute exact isAuthenticated={isAuthenticated} path="/add" component={CreateCafe} />
+          <Route component={NotFound} />
         </Switch>
       </Layout>
     );
   }
 }
 
-export default App;
+const mapStateToProps = ({ auth }) => {
+  return {
+    isAuthenticated: auth.token !== null
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(App));

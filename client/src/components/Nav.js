@@ -24,9 +24,14 @@ const Nav = ({isAuth}) => (
             <NavLink to='/logout'>Logout</NavLink>
           </li>
         </Fragment>
-      : <li>
-          <NavLink to='/account'>Account</NavLink>
-        </li> }
+      : <Fragment>
+          <li>
+            <NavLink to='/login'>Account</NavLink>
+          </li>
+          <li>
+            <NavLink to='/register'>Register</NavLink>
+          </li>
+        </Fragment>  }
     </ul>
   </StyledNav>
 );

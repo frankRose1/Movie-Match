@@ -1,5 +1,6 @@
 import {showLoading, hideLoading} from 'react-redux-loading';
 import axios from '../utils/axios';
+import setAuthHeaders from '../utils/setAuthHeaders';
 
 export const AUTH_REQUEST = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
@@ -27,6 +28,8 @@ function authFail(error){
 }
 
 export function logout(){
+  localStorage.removeItem('token');
+  setAuthHeaders(false);
   return {
     type: AUTH_LOGOUT
   }
@@ -50,14 +53,25 @@ export function handleAuth({email, password}){
     dispatch(authRequest());
     axios.post('/users/login', {email, password})
       .then(res => {
-        console.log(res);
+        localStorage.setItem('token', res.data.token);
+        setAuthHeaders(res.data.token);
         dispatch(authSuccess(res.data.token));
         dispatch(hideLoading());
       })
       .catch(err => {
-        console.log(err.response.data.error);
         dispatch(authFail(err.response.data))
         dispatch(hideLoading())
       });
   }
+}
+
+export function checkAuthState(){
+  return dispatch => {
+    const token = localStorage.getItem('token');
+    if (!token){
+      dispatch(logout());
+    } else {
+      dispatch(authSuccess(token));
+    }
+  };
 }

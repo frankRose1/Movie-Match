@@ -23,15 +23,7 @@ authController.userLogin = (req, res, next) => {
       }
       //log the user in
       const token = jwt.sign({ userId: user._id }, process.env.APP_SECRET);
-      res.json({token})
-
-      
-      // res.cookie('token', token, {
-      //   httpOnly: true,
-      //   maxAge: 1000 * 60 * 60 * 24 * 365,
-      // });
-      // res.location("/");
-      // res.sendStatus(200);
+      res.json({token});
     });
   } else {
     const error = new Error('Email and password are required!');
