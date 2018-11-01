@@ -21,9 +21,9 @@ authController.userLogin = (req, res, next) => {
         error.status = 400;
         return next(error);
       }
-      //log the user in
-      const token = jwt.sign({ userId: user._id }, process.env.APP_SECRET);
-      res.json({token});
+      const payload = { id: user.id, name: user.name, avatar: user.avatar };
+      const token = jwt.sign(payload, process.env.APP_SECRET, { expiresIn: 3600 } );
+      res.json({token: token})
     });
   } else {
     const error = new Error('Email and password are required!');

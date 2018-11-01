@@ -20,6 +20,7 @@ const UserSchema = new Schema({
         required: 'Please provide your name.',
         trim: true
     },
+    avatar: String,
     password: {
         type: String,
         required: 'You must supply a password!'

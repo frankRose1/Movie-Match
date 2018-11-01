@@ -4,8 +4,7 @@ require('dotenv').config({path: '.env'})
 const express = require('express');
 const mongoose = require('mongoose');
 const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
+const passport = require("passport");
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
@@ -31,23 +30,9 @@ app.use(cors({
     origin: process.env.CLIENT_URL,
     credentials: true
 }));
-// app.use((req, res, next) => {
-//     res.setHeader("Access-Control-Allow-Origin", `${process.env.CLIENT_URL}`);
-//     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS, GET, PUT, DELETE');
-//     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// });
 
-app.use(cookieParser());
-//decode the JWT and put the userId on the request
-app.use( (req, res, next) => {
-    const {token} = req.cookies;
-    if (token) {
-        const {userId} = jwt.verify( token, process.env.APP_SECRET );
-        req.userId = userId;
-    }
-    next();
-});
+app.use(passport.initialize());
+require('./handlers/passport')(passport);
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: true})); //allows using inputs w/nested data name="location[address]" ==> location.address

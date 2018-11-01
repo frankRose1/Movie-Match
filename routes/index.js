@@ -37,7 +37,7 @@ router.get('/users/logout',
 );
 router.get('/users/account', 
   authController.requiresLogin,
-  catchErrors(userController.userAccount)
+  userController.userAccount
 );
 router.put('/users/account', 
   authController.requiresLogin,
