@@ -26,7 +26,12 @@ const Cafe = props => {
 };
 
 Cafe.propTypes = {
-  cafe: PropTypes.object.isRequired
+  cafe: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    description: PropTypes.string
+  }).isRequired
 };
 
 export default Cafe;

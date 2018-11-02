@@ -40,6 +40,9 @@ injectGlobal`
     line-height: 2;
     font-family: 'Roboto', sans-serif;
   }
+  main{
+    min-height: 70vh;
+  }
   ul {
     list-style: none;
   }

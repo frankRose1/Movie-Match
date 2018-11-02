@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Form from '../components/styles/FormStyles';
-import axios from '../utils/axios';
+import Error from './ErrorMessage';
+import {connect} from 'react-redux';
+import {handleCreateCafe} from '../actions/cafe';
 
 class CreateCafe extends Component {
   state = {
-    loading: false,
     imageUploading: false,
-    error: false,
     formIsValid: false,
     name: '',
     image: '',
@@ -19,7 +19,6 @@ class CreateCafe extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({loading: true});
     const data = {
       name: this.state.name,
       image: this.state.image,
@@ -30,28 +29,12 @@ class CreateCafe extends Component {
         coordinates: [parseInt(this.state.lng), parseInt(this.state.lat)]
       }
     };
-    axios.post('/cafes', data)
-      .then(res => {
-        console.log(res);
-        this.setState({
-          loading: false,
-          name: '',
-          image: '',
-          largeImage: '',
-          description: '',
-          address: '',
-          lat: '',
-          lng: ''
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({error: true, loading: false});
-      });
+    this.props.dispatch(handleCreateCafe(data));
   };
 
   addToState = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   };
 
   uploadFile = async  e => {
@@ -69,26 +52,15 @@ class CreateCafe extends Component {
     });
   };
 
-  /**
-   * @param {string} value - e.target.value of the form input
-   * @param {object} rules - "validation" object in the form elemen config in state
-   */
-  checkValidity = (value, rules) => {
-    if (!rules) return true; //some elements will not have a validation(rules) key
-    let isValid = true;
-    //will only be valid if the rule is satisfied and isValid is already set to true(will matter if more rules are incorporated)
-    if (rules.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-    return isValid;
-  };
-
   render() {
+
+    const {loading, error} = this.props;
 
     return (
       <Form method="post" onSubmit={this.handleSubmit}>
+        <Error error={error}/>
         <h2>Tell Us About Your Awesome Cafe</h2>
-          <fieldset disabled={this.state.loading || this.state.imageUploading} aria-busy={this.state.loading || this.state.imageUploading}>
+          <fieldset disabled={loading || this.state.imageUploading} aria-busy={loading || this.state.imageUploading}>
             <div>
               <label htmlFor="file">
                 <input 
@@ -159,11 +131,16 @@ class CreateCafe extends Component {
                   required/>
               </label>
             </div>
-            <button type="submit" disabled={this.state.loading || this.state.imageUploading}>Create Cafe!</button>
+            <button type="submit" disabled={loading || this.state.imageUploading}>Creat{loading ? 'ing' : 'e'} Cafe!</button>
           </fieldset>
       </Form>
     );
   }
 }
 
-export default CreateCafe;
+const mapStateToProps = ({cafe}) => ({
+  loading: cafe.loading,
+  error: cafe.error
+});
+
+export default connect(mapStateToProps)(CreateCafe);
