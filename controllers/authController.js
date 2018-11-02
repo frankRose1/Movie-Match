@@ -23,7 +23,7 @@ authController.userLogin = (req, res, next) => {
       }
       const payload = { id: user.id, name: user.name, avatar: user.avatar };
       const token = jwt.sign(payload, process.env.APP_SECRET, { expiresIn: 3600 } );
-      res.json({token: token})
+      res.json({token: token});
     });
   } else {
     const error = new Error('Email and password are required!');
@@ -106,7 +106,7 @@ authController.requiresLogin = (req, res, next) => {
 
 //to protect routes such as login and register
 authController.requiresLogout = (req, res, next) => {
-  if (req.userId) {
+  if (req.user) {
     const error = new Error('You need to be logged out to do that!');
     error.status = 400;
     return next(error);

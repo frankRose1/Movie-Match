@@ -35,6 +35,7 @@ export function logout(){
   }
 }
 
+//TODO: may not need a call to the backend, logout might be the only action creator needed
 export function handleLogout(){
   return dispatch => {
     dispatch(showLoading());
@@ -53,14 +54,32 @@ export function handleAuth({email, password}){
     dispatch(authRequest());
     axios.post('/users/login', {email, password})
       .then(res => {
-        localStorage.setItem('token', res.data.token);
-        setAuthHeaders(res.data.token);
-        dispatch(authSuccess(res.data.token));
+        const {token} = res.data;
+        localStorage.setItem('token', token);
+        setAuthHeaders(token);
+        dispatch(authSuccess(token));
         dispatch(hideLoading());
       })
       .catch(err => {
         dispatch(authFail(err.response.data))
         dispatch(hideLoading())
+      });
+  }
+}
+
+//log the user in upon signing up
+export function handleRegister({email, password, confirmPassword, name}){
+  return dispatch => {
+    dispatch(authRequest()); //set loading to true
+    axios.post('/users/register', {email, password, confirmPassword, name})
+      .then(res => {
+        const {token} = res.data;
+        localStorage.setItem('token', token);
+        setAuthHeaders(token);
+        dispatch(authSuccess(token));
+      })
+      .catch(err => {
+        dispatch(authFail(err.response.data));
       });
   }
 }

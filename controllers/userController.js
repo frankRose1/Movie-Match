@@ -22,7 +22,9 @@ userController.createUser = async (req, res) => {
   const user = await new User(userData);
   await user.save();
   //log the user in by creating a JWT
-  res.sendStatus(201);
+  const payload = { id: user.id, name: user.name, avatar: user.avatar };
+  const token = jwt.sign(payload, process.env.APP_SECRET, { expiresIn: 3600 } );
+  res.json({token: token});
 };
 
 // GET /users/account --> use to populate an "update user account" form
@@ -38,7 +40,7 @@ userController.updateUserAccount = async (req, res) => {
     email: req.body.email
   };
   const user = await User.findOneAndUpdate(
-    { _id: req.userId}, 
+    { _id: req.user.id}, 
     { $set: updates },
     //return the new user and runValidation again
     { new: true, runValidators: true, context: 'query' }

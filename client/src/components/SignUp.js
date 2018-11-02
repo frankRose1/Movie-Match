@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import axios from '../utils/axios';
+import {connect} from 'react-redux';
 import Form from './styles/FormStyles';
 import SubmitButton from './UI/SubmitButton';
+import Error from './ErrorMessage';
+import {handleRegister} from '../actions/auth';
 
 class SignUp extends Component {
   state = {
-    loading: false,
-    error: false,
     name: '',
     email: '',
     password: '',
@@ -15,38 +16,25 @@ class SignUp extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({loading: true});
-    const data = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword
-    };
-    axios.post('/users/register', data)
-    .then(res => {
-      console.log(res);
-      this.setState({ 
-        loading: false,
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      });
-    })
-    .catch(err => {
-      this.setState({loading: false, error: err});
-    });
+    this.props.dispatch(handleRegister({
+      ...this.state
+    }));
   };
 
   addToState = e => {
-    this.setState({ [e.target.name]: e.target.value});
+    const {name, value} = e.target;
+    this.setState({ [name]: value});
   };
 
   render() {
+
+    const {loading, error} = this.props;
+
     return (
       <Form method="post" onSubmit={this.handleSubmit}>
+        <Error error={error} />
         <h2>Sign Up</h2>
-        <fieldset disabled={this.state.loading} aria-busy={this.state.loading}>
+        <fieldset disabled={loading} aria-busy={loading}>
           <div>
             <label htmlFor="name">
               <input 
@@ -96,7 +84,7 @@ class SignUp extends Component {
             </label>
           </div>
           <SubmitButton 
-            disabledBtn={this.state.loading}
+            disabledBtn={loading}
             text="Sign Up!" />
         </fieldset>
       </Form>
@@ -104,4 +92,9 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapStateToProps = ({auth}) => ({
+  loading: auth.loading,
+  error: auth.error
+});
+
+export default connect(mapStateToProps)(SignUp);

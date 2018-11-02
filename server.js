@@ -25,7 +25,6 @@ db.on('error', err => {
     console.error(`Failed to connect to database: ${err.message}`);
 });
 
-
 app.use(cors({
     origin: process.env.CLIENT_URL,
     credentials: true

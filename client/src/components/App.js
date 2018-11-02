@@ -18,15 +18,15 @@ class App extends Component {
 
   render() {
     const { isAuthenticated } = this.props;
-    // protected routes need to be wrapped in switch
+    
     return (
       <Layout>
-        <Route exact path="/" component={Cafes} />
-        <Route exact path="/cafes" component={Cafes} />
-        <Route exact path="/logout" component={Logout} />
-        <Route exact path="/login" component={Auth} />
-        <Route exact path="/regsiter" component={SignUp} />
         <Switch>
+          <Route exact path="/" component={Cafes} />
+          <Route exact path="/cafes" component={Cafes} />
+          <Route exact path="/logout" component={Logout} />
+          <Route exact path="/login" component={Auth} />
+          <Route exact path="/register" component={SignUp} />
           <ProtectedRoute exact isAuthenticated={isAuthenticated} path="/add" component={CreateCafe} />
           <Route component={NotFound} />
         </Switch>

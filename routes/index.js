@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 const userController = require('../controllers/userController');
 const cafeController = require('../controllers/cafeController');
 const authController = require('../controllers/authController');
@@ -11,7 +12,7 @@ const middleware = require('../middleware');
 router.get('/cafes', catchErrors(cafeController.getCafes));
 router.get('/cafe/:cafeSlug', catchErrors(cafeController.getIndividualCafe));
 router.post('/cafes',
-  authController.requiresLogin,
+  passport.authenticate('jwt', {session: false}),
   catchErrors(cafeController.createCafe)
 );
 //TODO: make sure the owner of the store is the one trying to update it
@@ -48,7 +49,7 @@ router.put('/users/account/reset/:resetToken', authController.requiresLogout, ca
 
 //review routes
 router.post('/reviews/:cafeId',
-  authController.requiresLogin,
+  passport.authenticate('jwt', {session: false}),
   catchErrors(reviewController.createReview)
 );
 

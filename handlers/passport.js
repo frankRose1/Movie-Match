@@ -13,12 +13,13 @@ opts.jwtFromRequest = Extract.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.APP_SECRET;
 
 module.exports = passport => {
-  //the payload is the same payload we encoed when we created the token (id name avatar)
+  //the payload is the same payload we encoed when we created the token (id name avatar email)
   passport.use(
     new JwtStrategy(opts, (jwt_payload, next) => {
       //find the user
       User.findById(jwt_payload.id)
         .then(user => {
+          console.log(jwt_payload);
           if (user) {
             return next(null, user);
           }
