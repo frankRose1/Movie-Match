@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import axios from '../utils/axios';
+import {connect} from 'react-redux';
 import styled from 'styled-components';
 import Cafe from './Cafe';
 import Loading from './UI/Loading';
-import {handleGetCafes} from '../actions/cafes';
+import Error from './ErrorMessage';
+import {handleFetchCafes} from '../actions/cafes';
 
 const CafeGrid = styled.ul`
   display: grid;
@@ -14,37 +15,22 @@ const CafeGrid = styled.ul`
 
 class Cafes extends Component {
 
-  state = {
-    cafes: [],
-    loading: false,
-    error: false
-  }
-
-  fetchCafes = () => {
-    this.setState({loading: true});
-    axios.get('/cafes')
-      .then(res => {
-        this.setState({cafes: res.data, loading: false});
-      })
-      .catch(err => {
-        this.setState({error: err, loading: false});
-      });
-  };
-
   componentDidMount(){
-    this.fetchCafes();
+    this.props.dispatch(handleFetchCafes());
   }
 
   render() {
+    const {loading, cafes, error} = this.props;
+
     let cafesContent = null;
-    if (this.state.loading) {
+    if (loading) {
       cafesContent = <Loading />
-    } else if (this.state.error) {
-      cafesContent = <p>Shoot! {this.state.error.message}</p>;
+    } else if (error) {
+      cafesContent = <Error error={error} />
     } else {
       cafesContent = 
         <CafeGrid>
-          {this.state.cafes.map(cafe => (
+          {cafes.map(cafe => (
             <Cafe
               key={cafe._id}
               cafe={cafe}/>
@@ -61,4 +47,12 @@ class Cafes extends Component {
   }
 }
 
-export default Cafes;
+const mapStateToProps = ({cafes}) =>  (
+  {
+    loading: cafes.loading,
+    cafes: cafes.cafes,
+    error: cafes.error
+  }
+)
+
+export default connect(mapStateToProps)(Cafes);

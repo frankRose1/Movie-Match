@@ -6,5 +6,6 @@ import {loadingBarReducer} from 'react-redux-loading';
 
 export default combineReducers({
   auth,
+  cafes,
   loadingBar: loadingBarReducer
 });
