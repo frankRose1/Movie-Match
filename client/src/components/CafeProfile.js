@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import CafeProfileStylesfrom from './styles/CafeProfileStyles';
+import CafeProfileStyles from './styles/CafeProfileStyles';
 import Reviews from './Reviews';
+import CreateReview from './CreateReview';
 import Loading from './UI/Loading';
 import Error from './ErrorMessage';
 import {fetchCafeBySlug, clearCafeError} from '../actions/cafe';
@@ -48,9 +49,7 @@ class CafeProfile extends Component {
           <p>{cafe.description}</p>
         </div>
 
-        <div>
-          if user is signed in an is not the owner of the store put up review form
-        </div>
+        <CreateReview cafeId={cafe._id}/>
 
         {
           reviews.length 

@@ -11,8 +11,7 @@ reviewController.createReview = async (req, res) => {
   req.body.cafe = req.params.cafeId;
   const review = new Review(req.body);
   await review.save();
-  res.location(`/cafe/:cafeSlug`); //the front end will have the slug saved in state
-  res.sendStatus(201);
+  res.status(201).json(review);
 };
 
 module.exports = reviewController;

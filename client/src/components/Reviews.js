@@ -5,7 +5,7 @@ import ReviewsStyles from './styles/ReviewsStyles';
 const Reviews = ({reviews}) => (
   <ReviewsStyles>
     {reviews.map(review => (
-      <div key={review.id}>
+      <li key={review.id}>
         <div className="review-header">
           <div className="review-author">
             <img src="" alt=""/>
@@ -21,7 +21,7 @@ const Reviews = ({reviews}) => (
         <p className="review-body">
           review text
         </p>
-      </div>
+      </li>
     ))}
   </ReviewsStyles>
 );
