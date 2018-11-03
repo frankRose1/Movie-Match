@@ -29,7 +29,7 @@ class CreateCafe extends Component {
         coordinates: [parseInt(this.state.lng), parseInt(this.state.lat)]
       }
     };
-    this.props.dispatch(handleCreateCafe(data));
+    this.props.dispatch(handleCreateCafe(data, this.props.history));
   };
 
   addToState = e => {

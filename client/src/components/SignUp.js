@@ -15,12 +15,10 @@ class SignUp extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-      this.props.dispatch(
-        handleRegister({
-        ...this.state
-      },
-      this.props.history
-    ));
+    const data = {
+      ...this.state
+    };
+    this.props.dispatch(handleRegister(data, this.props.history));
   };
 
   addToState = e => {

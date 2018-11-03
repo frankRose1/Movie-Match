@@ -5,11 +5,12 @@ import {
   INIT_ASYNC_CAFE, 
   CAFE_SUCCESS, 
   CAFE_FAIL, 
-  RECEIVE_CAFE
+  RECEIVE_CAFE,
+  CLEAR_CAFE_ERROR
     } from '../actions/cafe';
 
 const initalState = {
-  loading: false,
+  loading: true,
   error: null,
   cafe: {}
 };
@@ -37,6 +38,11 @@ export default function cafe(state = initalState, action){
         ...state,
         loading: false,
         error: action.error
+      }
+    case CLEAR_CAFE_ERROR:
+      return {
+        ...state,
+        error: null
       }
     default:
       return state;

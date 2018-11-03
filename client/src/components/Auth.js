@@ -17,13 +17,11 @@ class Auth extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.dispatch(handleAuth(
-      {
-        email: this.state.email,
-        password: this.state.password
-      }, 
-      this.props.history
-    ));
+    const data = {
+      email: this.state.email,
+      password: this.state.password
+    }
+    this.props.dispatch(handleAuth(data, this.props.history));
   };
 
 

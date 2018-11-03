@@ -19,13 +19,16 @@ cafeController.getCafes = async (req, res) => {
     res.json(cafes);
 };
 
-cafeController.getIndividualCafe = async (req, res) => {
+cafeController.getIndividualCafe = async (req, res, next) => {
     const {cafeSlug} = req.params;
     const cafe = await Cafe.findOne({slug: cafeSlug})
                             .populate('user');
     //if a specific slug does not return a cafe handle it manually
-    if (!cafe) return next();
-    res.status(200);
+    if (!cafe) {
+        const error = new Error('Sorry, we couldn\'t find a cafe with that name.');
+        error.status = 404;
+        return next(error);
+    }
     res.json(cafe);
 };
 
