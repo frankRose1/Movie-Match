@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import Form from "./styles/FormStyles";
 import { connect } from "react-redux";
-import SubmitButton from "./UI/SubmitButton";
-import { Redirect } from "react-router-dom";
 import { handleAuth } from "../actions/auth";
 import Error from "./ErrorMessage";
 
@@ -19,14 +17,22 @@ class Auth extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.dispatch(handleAuth({
-      email: this.state.email,
-      password: this.state.password
-    }));
+    this.props.dispatch(handleAuth(
+      {
+        email: this.state.email,
+        password: this.state.password
+      }, 
+      this.props.history
+    ));
   };
+
 
   render() {
     const { loading, error, isAuthenticated } = this.props;
+
+    if (isAuthenticated) {
+      this.props.history.push('/');
+    }
 
     return (
       <Form method="post" onSubmit={this.handleSubmit}>
@@ -59,7 +65,11 @@ class Auth extends Component {
               />
             </label>
           </div>
-          <SubmitButton disabledBtn={loading} text="Sign In!" />
+          <button 
+            type="submit" 
+            disabled={loading}>
+              Sign{loading ? 'ing' : ''} In!
+            </button>
         </fieldset>
       </Form>
     );

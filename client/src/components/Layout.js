@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
+import React from 'react';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
-import {connect} from 'react-redux';
 import {LoadingBar} from 'react-redux-loading';
 import Header from './Header';
 import Footer from './Footer';
@@ -55,30 +54,17 @@ injectGlobal`
   }
 `;
 
-class Layout extends Component {
+const Layout = props => (
+  <ThemeProvider theme={theme}>
+    <Aux>
+      <LoadingBar />
+      <Header/> 
+      <main>
+        <Inner>{props.children}</Inner>
+      </main>
+      <Footer />
+    </Aux>
+  </ThemeProvider>
+);
 
-  render(){
-    const {isAuthenticated} = this.props;
-    return (
-      <ThemeProvider theme={theme}>
-        <Aux>
-          <LoadingBar />
-          <Header isAuth={isAuthenticated}/> 
-          <main>
-            <Inner>{this.props.children}</Inner>
-          </main>
-          <Footer />
-        </Aux>
-      </ThemeProvider>
-    )
-  }
-}
-
-const mapStateToProps = ({auth}) => {
-  return {
-    isAuthenticated: auth.token !== null
-  }
-}
-
-
-export default connect(mapStateToProps)(Layout);
+export default Layout;

@@ -4,39 +4,61 @@
 
 import axios from '../utils/axios';
 
-export const INIT_CREATE_CAFE = 'INIT_CREATE_CAFE';
-export const CREATE_CAFE_SUCCESS = 'CREATE_CAFE_SUCCESS';
-export const CREATE_CAFE_FAIL = 'CREATE_CAFE_FAIL';
+export const INIT_ASYNC_CAFE = 'INIT_ASYNC_CAFE';
+export const CAFE_SUCCESS = 'CAFE_SUCCESS';
+export const CAFE_FAIL = 'CAFE_FAIL';
+export const RECEIVE_CAFE = 'RECEIVE_CAFE';
 
-function initCreateCafe(){
+function initAsyncCafe(){
   return {
-    type: INIT_CREATE_CAFE
+    type: INIT_ASYNC_CAFE
   }
 }
 
-function createCafeSuccess(){
+function cafeSuccess(){
   return {
-    type: CREATE_CAFE_SUCCESS
+    type: CAFE_SUCCESS
   }
 }
 
-function createCafeFail(error){
+function cafeFail(error){
   return {
-    type: CREATE_CAFE_FAIL,
+    type: CAFE_FAIL,
     error
+  }
+}
+
+function receiveCafe(cafe){
+  return {
+    type: RECEIVE_CAFE,
+    cafe
   }
 }
 
 export function handleCreateCafe(cafeData){
   return dispatch => {
-    dispatch(initCreateCafe);
+    dispatch(initAsyncCafe());
     axios.post('/cafes', {...cafeData})
       .then(res => {
-        dispatch(createCafeSuccess());
+        dispatch(cafeSuccess());
       })
       .catch(err => {
-        dispatch(createCafeFail(err.response.data));
+        dispatch(cafeFail(err.response.data));
       });
+  }
+}
 
+export function fetchCafeBySlug(slug){
+  return dispatch => {
+    dispatch(initAsyncCafe());
+    axios.get(`/cafe/${slug}`)
+      .then(res => {
+        console.log(res);
+        dispatch(cafeSuccess());
+        dispatch(receiveCafe(res.data));
+      })
+      .catch(err => {
+        dispatch(cafeFail(err.response.data));
+      });
   }
 }

@@ -1,9 +1,10 @@
-import {AUTH_REQUEST, AUTH_FAIL, AUTH_SUCCESS, AUTH_LOGOUT} from '../actions/auth';
+import {AUTH_REQUEST, AUTH_FAIL, AUTH_SUCCESS, AUTH_LOGOUT, SET_CURRENT_USER} from '../actions/auth';
 
 const initalState = {
   loading: false,
   token: null,
-  error: null
+  error: null,
+  user: {}
 }
 
 export default function auth(state = initalState, action){
@@ -19,7 +20,7 @@ export default function auth(state = initalState, action){
         token: action.token,
         error: null,
         loading: false
-      }
+      };
     case AUTH_FAIL:
       return {
         ...state,
@@ -29,8 +30,14 @@ export default function auth(state = initalState, action){
     case AUTH_LOGOUT:
       return {
         ...state,
-        token: null
-      }
+        token: null,
+        user: {}
+      };
+    case SET_CURRENT_USER:
+      return {
+        ...state,
+        user: action.user
+      };
     default:
       return state;
   }

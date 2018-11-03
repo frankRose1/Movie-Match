@@ -26,10 +26,7 @@ errorHandlers.validationErrors = (err, req, res, next) => {
     //set the location to the page the user was on when errors occured
     res.location('back');
     res.status(400);
-    res.json({
-        message: "Required fields are missing or invalid",
-        errors
-    });
+    res.json({  message: errors });
 };
 
 errorHandlers.globalErrorHandler = (err, req, res, next) => {

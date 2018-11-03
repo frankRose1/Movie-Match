@@ -1,43 +1,64 @@
-import React, {Fragment} from 'react';
-import {NavLink} from 'react-router-dom';
+import React, {Component, Fragment} from 'react';
+import {NavLink, Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import StyledNav from './styles/NavStyles';
 
-const Nav = ({isAuth}) => (
-  <StyledNav>
-    <ul>
-      <li>
-        <NavLink to='/cafes'>Cafes</NavLink>
-      </li>
-      <li>
-        <NavLink to='/tags'>Tags</NavLink>
-      </li>
-      <li>
-        <NavLink to='/top'>Top</NavLink>
-      </li>
-      {isAuth
-      ? <Fragment>
+class Nav extends Component {
+  render(){
+    const {isAuthenticated, user} = this.props;
+    return(
+      <StyledNav>
+        <ul>
           <li>
-            <NavLink to='/add'>Add</NavLink>
+            <NavLink to='/cafes'>Cafes</NavLink>
           </li>
           <li>
-            <NavLink to='/logout'>Logout</NavLink>
-          </li>
-        </Fragment>
-      : <Fragment>
-          <li>
-            <NavLink to='/login'>Sign In</NavLink>
+            <NavLink to='/tags'>Tags</NavLink>
           </li>
           <li>
-            <NavLink to='/register'>Register</NavLink>
+            <NavLink to='/top'>Top</NavLink>
           </li>
-        </Fragment>  }
-    </ul>
-  </StyledNav>
-);
+          {isAuthenticated
+          ? <Fragment>
+              <li>
+                <NavLink to='/add'>Add</NavLink>
+              </li>
+              <li>
+                <NavLink to='/logout'>Logout</NavLink>
+              </li>
+              <li>
+                <Link to='/account'>
+                  <img 
+                    src={user.avatar} 
+                    alt={user.name} 
+                    title="You must have a Gravatar connected to your email to display an image." 
+                    className="user-avatar"/>
+                </Link>
+              </li>
+            </Fragment>
+          : <Fragment>
+              <li>
+                <NavLink to='/login'>Sign In</NavLink>
+              </li>
+              <li>
+                <NavLink to='/register'>Register</NavLink>
+              </li>
+            </Fragment>  }
+        </ul>
+      </StyledNav>
+    )
+  }
+}
 
 Nav.propTypes = {
-  isAuth: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired
 };
 
-export default Nav;
+const mapStateToProps = ({auth}) => ({
+  isAuthenticated: auth.token !== null,
+  user: auth.user
+});
+
+export default connect(mapStateToProps)(Nav);

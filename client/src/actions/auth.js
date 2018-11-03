@@ -1,11 +1,13 @@
 import {showLoading, hideLoading} from 'react-redux-loading';
 import axios from '../utils/axios';
 import setAuthHeaders from '../utils/setAuthHeaders';
+import jwt_decode from 'jwt-decode';
 
 export const AUTH_REQUEST = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
 function authRequest(){
   return {
@@ -14,6 +16,7 @@ function authRequest(){
 }
 
 function authSuccess(token){
+  setAuthHeaders(token);
   return {
     type: AUTH_SUCCESS,
     token
@@ -27,6 +30,14 @@ function authFail(error){
   }
 }
 
+function setCurrentUser(token){
+  const decodedUser = jwt_decode(token);
+  return {
+    type: SET_CURRENT_USER,
+    user: decodedUser
+  }
+}
+
 export function logout(){
   localStorage.removeItem('token');
   setAuthHeaders(false);
@@ -35,20 +46,8 @@ export function logout(){
   }
 }
 
-//TODO: may not need a call to the backend, logout might be the only action creator needed
-export function handleLogout(){
-  return dispatch => {
-    dispatch(showLoading());
-    axios.get('/users/logout')
-      .then(res => {
-        dispatch(logout());
-        dispatch(hideLoading());
-      });
-  }
-}
 
-
-export function handleAuth({email, password}){
+export function handleAuth({email, password}, history){
   return dispatch => {
     dispatch(showLoading());
     dispatch(authRequest());
@@ -56,9 +55,10 @@ export function handleAuth({email, password}){
       .then(res => {
         const {token} = res.data;
         localStorage.setItem('token', token);
-        setAuthHeaders(token);
         dispatch(authSuccess(token));
+        dispatch(setCurrentUser(token));
         dispatch(hideLoading());
+        history.push('/');
       })
       .catch(err => {
         dispatch(authFail(err.response.data))
@@ -68,15 +68,16 @@ export function handleAuth({email, password}){
 }
 
 //log the user in upon signing up
-export function handleRegister({email, password, confirmPassword, name}){
+export function handleRegister({email, password, confirmPassword, name}, history){
   return dispatch => {
     dispatch(authRequest()); //set loading to true
     axios.post('/users/register', {email, password, confirmPassword, name})
       .then(res => {
         const {token} = res.data;
         localStorage.setItem('token', token);
-        setAuthHeaders(token);
         dispatch(authSuccess(token));
+        dispatch(setCurrentUser(token));
+        history.push('/');
       })
       .catch(err => {
         dispatch(authFail(err.response.data));
@@ -91,6 +92,7 @@ export function checkAuthState(){
       dispatch(logout());
     } else {
       dispatch(authSuccess(token));
+      dispatch(setCurrentUser(token));
     }
   };
 }

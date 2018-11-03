@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from '../utils/axios';
 import {connect} from 'react-redux';
 import Form from './styles/FormStyles';
 import SubmitButton from './UI/SubmitButton';
@@ -16,9 +15,12 @@ class SignUp extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.dispatch(handleRegister({
-      ...this.state
-    }));
+      this.props.dispatch(
+        handleRegister({
+        ...this.state
+      },
+      this.props.history
+    ));
   };
 
   addToState = e => {
@@ -28,7 +30,11 @@ class SignUp extends Component {
 
   render() {
 
-    const {loading, error} = this.props;
+    const {loading, error, isAuthenticated} = this.props;
+
+    if (isAuthenticated) {
+      this.props.history.push('/');
+    }
 
     return (
       <Form method="post" onSubmit={this.handleSubmit}>
@@ -94,7 +100,8 @@ class SignUp extends Component {
 
 const mapStateToProps = ({auth}) => ({
   loading: auth.loading,
-  error: auth.error
+  error: auth.error,
+  isAuthenticated: auth.token !== null
 });
 
 export default connect(mapStateToProps)(SignUp);

@@ -5,6 +5,7 @@ import { checkAuthState } from "../actions/auth";
 import Layout from "./Layout";
 import CreateCafe from "./CreateCafe";
 import Cafes from "./Cafes";
+import CafeProfile from './CafeProfile';
 import Auth from "./Auth";
 import SignUp from "./SignUp";
 import Logout from "./Logout";
@@ -27,6 +28,7 @@ class App extends Component {
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/login" component={Auth} />
           <Route exact path="/register" component={SignUp} />
+          <Route exact path="/cafe/:cafeSlug" component={CafeProfile} />
           <ProtectedRoute exact isAuthenticated={isAuthenticated} path="/add" component={CreateCafe} />
           <Route component={NotFound} />
         </Switch>
