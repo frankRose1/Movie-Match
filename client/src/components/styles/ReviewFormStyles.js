@@ -38,7 +38,7 @@ const ReviewFormStyles = styled.form`
         font-size: 0;
         &:before {
           content: '★';
-          font-size: 2rem;
+          font-size: 3rem;
         }
         &[for="star5"] { order: 5; }
         &[for="star4"] { order: 4; }
@@ -57,7 +57,7 @@ const ReviewFormStyles = styled.form`
     background:${props => props.theme.yellow};
     color: ${props => props.theme.black};
     font-family: inherit;
-    font-size: 1.4rem;
+    font-size: 2.5rem;
     padding: 8px 12px;
     border-radius: 3px;
     font-weight: 600;

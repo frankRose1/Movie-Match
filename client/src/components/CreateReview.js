@@ -30,7 +30,6 @@ class CreateReview extends Component {
   handleChange = e => {
     let {value, name} = e.target;
     value = name === 'rating' ? parseInt(value) : value;
-    console.log(value)
     this.setState({ [name]: value} );
   }
 
@@ -65,14 +64,15 @@ class CreateReview extends Component {
                 </Fragment>
               ))}
             </div>
+
+            <button
+              type="submit"
+              disabled={loading}>
+              Submit{loading ? 'ing your' : ''} Review!
+            </button>
+
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}>
-            Submit{loading ? 'ing your' : ''} Review!
-          </button>
-          
       </StyledReviewForm>
     )
   }

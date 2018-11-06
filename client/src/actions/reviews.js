@@ -28,6 +28,7 @@ export function handleCreateReview(reviewData, cafeId){
     dispatch(initAsyncReview());
     axios.post(`/reviews/${cafeId}`, {...reviewData})
       .then(res => {
+        console.log(res);
         dispatch(reviewSuccess());
       })
       .catch(err => {

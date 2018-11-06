@@ -17,10 +17,7 @@ const ReviewSchema = new Schema({
     type: mongoose.Schema.ObjectId,
     required: 'You must supply a cafe!'
   },
-  text: {
-    type: String,
-    required: 'Please tell us a bit about your experience.'
-  },
+  text: String,
   rating: {
     type: Number,
     required: 'Please leave a rating!',
@@ -30,7 +27,7 @@ const ReviewSchema = new Schema({
 });
 
 function autoPopulate(next){
-  this.populate({path: 'author', select: 'name'});
+  this.populate({path: 'author', select: 'name avatar'});
   next();
 }
 

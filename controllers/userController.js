@@ -8,6 +8,12 @@ const userController = {};
 // POST /users/register
 userController.createUser = async (req, res) => {
   const {name, email, password} = req.body;
+  const existingUser = await User.findOne({email});
+  if (existingUser) {
+    const error = new Error('A user with that email already exists!');
+    error.status = 400;
+    throw error;
+  }
   const avatar = gravatar.url(email, {
     r: "pg", //Rating,
     s: "200", //Size
