@@ -35,8 +35,21 @@ const FormStyles = styled.form`
     background-color: #ccc;
     }
   }
-  button {
+  button[type="submit"] {
     cursor: pointer;
+    border: 1px solid transparent;
+    outline: none;
+    color: white;
+    background: ${props => props.theme.yellow};
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-size: 1.5rem;
+    transition: all 0.4s ease-in-out;
+    &:hover{
+      background: white;
+      color: ${props => props.theme.yellow};
+      border: 1px solid ${props => props.theme.yellow};
+    }
   }
   button:disabled {
     cursor: not-allowed;

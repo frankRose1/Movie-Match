@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Form from './styles/FormStyles';
+import StyledReviewForm from './styles/ReviewFormStyles';
 import Error from './ErrorMessage';
 import {connect} from 'react-redux';
 import {handleCreateReview} from '../actions/reviews';
@@ -28,8 +28,10 @@ class CreateReview extends Component {
   }
 
   handleChange = e => {
-    const {value, name} = e.target;
-    this.setState({[name]: value});
+    let {value, name} = e.target;
+    value = name === 'rating' ? parseInt(value) : value;
+    console.log(value)
+    this.setState({ [name]: value} );
   }
 
   render() {
@@ -37,39 +39,41 @@ class CreateReview extends Component {
     const  {loading, error} = this.props;
 
     return (
-      <Form
+      <StyledReviewForm
         method="post"
         onSubmit={this.handleSubmit}>
         <Error error={error}/>
-        <h2>Tell Us About Your Visit</h2>
-        <fieldset disabled={loading} aria-busy={loading}>
-            <label htmlFor="rating">
-              <input 
-                type="text"
-                name="rating"
-                id="rating"
-                placeholder="Rating"
-                value={this.state.rating}
-                onChange={this.handleChange}
-                required/>
-            </label>
 
-            <label htmlFor="text">
-              <textarea 
-                name="text"
-                id="text"
-                placeholder="Describe your visit..."
-                value={this.state.text}
-                onChange={this.handleChange}
-                required/>
-            </label>
+          <textarea
+            name="text"
+            placeholder="Did you try this place? Have something to say? Leave a review..."
+            value={this.state.text}
+            onChange={this.handleChange}/>
+
+          <div className="reviewer-meta">
+            <div className="reviewer-stars">
+              {[5, 4, 3, 2, 1].map(num => (
+                <Fragment key={num}>
+                  <input 
+                    type='radio'
+                    name='rating'
+                    value={num}
+                    id={`star${num}`}
+                    onChange={this.handleChange}
+                    required/>
+                    <label htmlFor={`star${num}`}>{num} Stars</label>
+                </Fragment>
+              ))}
+            </div>
+          </div>
+
           <button
             type="submit"
             disabled={loading}>
-            Post{loading ? 'ing your' : ''} Review!
+            Submit{loading ? 'ing your' : ''} Review!
           </button>
-        </fieldset>
-      </Form>
+          
+      </StyledReviewForm>
     )
   }
 }

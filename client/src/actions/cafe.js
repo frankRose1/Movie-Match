@@ -66,6 +66,7 @@ export function fetchCafeBySlug(slug){
         dispatch(cafeSuccess());
       })
       .catch(err => {
+        console.log(err.response);
         dispatch(cafeFail(err.response.data));
       });
   }

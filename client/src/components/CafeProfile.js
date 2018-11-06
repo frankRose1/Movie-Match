@@ -24,7 +24,10 @@ class CafeProfile extends Component {
   }
 
   render() {
-    const {cafe, loading, error, reviews} = this.props;
+    const {cafe, loading, error, isAuhenticated, currentUser} = this.props;
+    //if the user is authenticated and not the cafe owner show the review form
+    console.log('auth', isAuhenticated);
+    console.log('current user', currentUser);
 
     if (loading) {
       return <Loading />
@@ -34,40 +37,46 @@ class CafeProfile extends Component {
       return <Error error={error}/>
     }
 
-    return (
-      <CafeProfileStyles>
-        <div className="hero">
-          <img src={cafe.largeImage} alt={cafe.name}/>
-        </div>
+    if (cafe) {
+      return (
+        <CafeProfileStyles>
+          <div className="hero">
+            <img src={cafe.largeImage} alt={cafe.name}/>
+          </div>
+  
+          <div className="cafe-details">
+            { cafe.location && <img 
+              className="map" 
+              src={`https://maps.googleapis.com/maps/api/staticmap?center=${cafe.location.coordinates[1]},${cafe.location.coordinates[0]}&zoom=14&size=800x150&key=${googleApiKey}&markers=${cafe.location.coordinates[1]},${cafe.location.coordinates[0]}&scale=2`} 
+              alt="Cafe Location"/> }
+            {cafe.location && <p className="location">{cafe.location.address}</p>}
+            <p>{cafe.description}</p>
+          </div>
+          
+          {/* show the review form to authenticated users and who are not the cafe owner */}
+          {isAuhenticated && currentUser.id !== cafe.user._id && <CreateReview cafeId={cafe._id}/>}
+  
+          {
+            cafe.reviews.length 
+              ? <Reviews reviews={cafe.reviews} />
+              : <p style={{textAlign: 'center', fontSize: '3rem'}}>There are no reviews for this cafe yet!</p> 
+          }
+  
+        </CafeProfileStyles>
+      )
+    }
 
-        <div className="cafe-details">
-          { cafe.location && <img 
-            className="map" 
-            src={`https://maps.googleapis.com/maps/api/staticmap?center=${cafe.location.coordinates[1]},${cafe.location.coordinates[0]}&zoom=14&size=800x150&key=${googleApiKey}&markers=${cafe.location.coordinates[1]},${cafe.location.coordinates[0]}&scale=2`} 
-            alt="Cafe Location"/> }
-          <p className="location">{cafe.location.address}</p>
-          <p>{cafe.description}</p>
-        </div>
-
-        <CreateReview cafeId={cafe._id}/>
-
-        {
-          reviews.length 
-            ? <Reviews reviews={reviews} />
-            : <p style={{textAlign: 'center', fontSize: '3rem'}}>There are no reviews for this cafe yet!</p> 
-        }
-
-      </CafeProfileStyles>
-    )
+    return <Loading />
 
   }
 }
 
-const mapStateToProps = ({cafe}) => ({
+const mapStateToProps = ({cafe, auth}) => ({
   cafe: cafe.cafe,
-  reviews: cafe.cafe.reviews,
   loading: cafe.loading,
-  error: cafe.error
+  error: cafe.error,
+  isAuhenticated: auth.token !== null,
+  currentUser: auth.user
 });
 
 export default connect(mapStateToProps)(CafeProfile);

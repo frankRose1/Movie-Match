@@ -25,6 +25,14 @@ db.on('error', err => {
     console.error(`Failed to connect to database: ${err.message}`);
 });
 
+
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, POST, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+//     next();
+// });
+
 app.use(cors({
     origin: process.env.CLIENT_URL,
     credentials: true
@@ -34,7 +42,7 @@ app.use(passport.initialize());
 require('./handlers/passport')(passport);
 
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({extended: true})); //allows using inputs w/nested data name="location[address]" ==> location.address
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(expressValidator());
 

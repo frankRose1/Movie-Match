@@ -10,9 +10,9 @@ import {
     } from '../actions/cafe';
 
 const initalState = {
-  loading: true,
+  loading: false,
   error: null,
-  cafe: {}
+  cafe: null
 };
 
 export default function cafe(state = initalState, action){
