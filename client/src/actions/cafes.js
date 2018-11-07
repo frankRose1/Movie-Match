@@ -27,14 +27,26 @@ function cafeError(error){
 
 export function handleFetchCafes(){
   return dispatch => {
-    dispatch(fetchCafes);
+    dispatch(fetchCafes());
     axios.get('/cafes')
       .then(res => {
         dispatch(receiveCafes(res.data))
       })
       .catch(err => {
-        console.log(err);
         dispatch(cafeError(err.response.data));
       });
   };
+}
+
+export function handleFetchTopRated(){
+  return dispatch => {
+    dispatch(fetchCafes());
+    axios.get('/cafes/top-rated')
+      .then(res => {
+        dispatch(receiveCafes(res.data))
+      })
+      .catch(err => {
+        dispatch(cafeError(err.response.data));
+      });
+  }
 }

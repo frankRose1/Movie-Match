@@ -43,6 +43,7 @@ const ReviewsStyles = styled.ul`
     .review-author {
       display: flex;
       justify-content: flex-start;
+      padding-left: 1.2rem;
       img {
         margin-right: 2rem;
       }

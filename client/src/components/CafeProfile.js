@@ -25,9 +25,6 @@ class CafeProfile extends Component {
 
   render() {
     const {cafe, loading, error, isAuhenticated, currentUser} = this.props;
-    //if the user is authenticated and not the cafe owner show the review form
-    console.log('auth', isAuhenticated);
-    console.log('current user', currentUser);
 
     if (loading) {
       return <Loading />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Form from '../components/styles/FormStyles';
+import Form from './styles/FormStyles';
+import TagsList from './styles/TagsListStyles';
 import Error from './ErrorMessage';
 import {connect} from 'react-redux';
 import {handleCreateCafe} from '../actions/cafe';
@@ -14,7 +15,8 @@ class CreateCafe extends Component {
     description: '',
     address: '',
     lat: '',
-    lng: ''
+    lng: '',
+    tags: []
   }
 
   handleSubmit = e => {
@@ -31,6 +33,17 @@ class CreateCafe extends Component {
     };
     this.props.dispatch(handleCreateCafe(data, this.props.history));
   };
+
+  updateTags = e => {
+    const {checked, value} = e.target;
+    let updatedTags = [...this.state.tags];
+    if (checked) {
+      updatedTags.push(value);
+    } else {
+      updatedTags = updatedTags.filter(tag => tag !== value);
+    }
+    this.setState({ tags: updatedTags });
+  }
 
   addToState = e => {
     const { name, value } = e.target;
@@ -55,6 +68,7 @@ class CreateCafe extends Component {
   render() {
 
     const {loading, error} = this.props;
+    const tagChoices = ['Free Wifi', 'Open Late', 'Family Friendly', 'Pet Friendly', 'Licensed'];
 
     return (
       <Form method="post" onSubmit={this.handleSubmit}>
@@ -131,6 +145,21 @@ class CreateCafe extends Component {
                   required/>
               </label>
             </div>
+            
+            <p>Add some tags to improve search results!</p>
+            <TagsList>
+              {tagChoices.map(tag => (
+                <li key={tag} className="tag-choice">
+                    <input 
+                      type="checkbox"
+                      id={tag}
+                      value={tag}
+                      name={tag}
+                      onChange={this.updateTags}/>
+                    <label htmlFor={tag}>#{tag}</label>
+                </li>
+              ))}
+            </TagsList>
             <button type="submit" disabled={loading || this.state.imageUploading}>Creat{loading ? 'ing' : 'e'} Cafe!</button>
           </fieldset>
       </Form>

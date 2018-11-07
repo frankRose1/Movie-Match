@@ -37,10 +37,12 @@ injectGlobal`
     margin: 0;
     font-size: 1.5rem;
     line-height: 2;
+    background-color: #efefef;
     font-family: 'Roboto', sans-serif;
   }
   main{
     min-height: 70vh;
+    margin: 100px 0;
   }
   ul {
     list-style: none;
@@ -51,6 +53,13 @@ injectGlobal`
   }
   button {
     cursor: pointer;
+  }
+
+  .avatar {
+    min-width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    align-self: center;
   }
 `;
 

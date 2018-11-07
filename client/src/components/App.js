@@ -6,6 +6,7 @@ import Layout from "./Layout";
 import CreateCafe from "./CreateCafe";
 import Cafes from "./Cafes";
 import CafeProfile from './CafeProfile';
+import TopRated from './TopRated';
 import Auth from "./Auth";
 import SignUp from "./SignUp";
 import Logout from "./Logout";
@@ -25,6 +26,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Cafes} />
           <Route exact path="/cafes" component={Cafes} />
+          <Route path="/top-rated" component={TopRated} />
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/login" component={Auth} />
           <Route exact path="/register" component={SignUp} />

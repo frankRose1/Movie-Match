@@ -12,9 +12,9 @@ function createStars(num){
 }
 
 function createEmptyStars(num){
-  const numOfEmptyStars = 5 - num;
-  if (numOfEmptyStars === 0) return [];
   let arr = [];
+  const numOfEmptyStars = 5 - num;
+  if (numOfEmptyStars === 0) return arr;
   for (let i = 0; i < numOfEmptyStars; i++){
     arr.push(i);
   }
@@ -29,7 +29,7 @@ const Reviews = ({reviews}) => (
       <li key={review._id}>
         <div className="review-header">
           <div className="review-author">
-            <img src={review.author.avatar} alt={`${review.author.name}'s Avatar`}/>
+            <img className="avatar" src={review.author.avatar} alt={`${review.author.name}'s Avatar`}/>
             <p>{review.author.name}</p>
           </div>
           <div className="review-stars" title={`Rated ${review.rating} out of 5 stars.`}>

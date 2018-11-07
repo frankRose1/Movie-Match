@@ -3,6 +3,7 @@
  */
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const Cafe = mongoose.model('Cafe');
 const jwt = require('jsonwebtoken');
 const mail = require('../handlers/mail');
 const {randomBytes} = require('crypto');
@@ -113,6 +114,16 @@ authController.requiresLogout = (req, res, next) => {
   } else {
     next();
   }
+};
+
+//only let cafe owner edit cafe
+authController.checkCafeOwner = (req, res, next) => {
+  Cafe.checkCafeOwner(req.user.id, req.params.cafeId, err => {
+    if (err) {
+      return next(err);
+    }
+    next();
+  });
 };
 
 module.exports = authController;

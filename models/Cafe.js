@@ -67,6 +67,31 @@ CafeSchema.pre('save', async function(next){
   next();
 });
 
+CafeSchema.statics.checkCafeOwner = function(userId, cafeId, cb){
+  let error;
+  this
+    .findById(cafeId)
+    .select('user')
+    .then(cafe =>  {
+      if(!cafe){
+        error = new Error(`No cafe found for the ID: ${cafeId}.`);
+        error.status = 404;
+        throw error;
+      }
+      console.log(cafe);
+      if ( userId !== cafe.user._id.toString() ) {
+        error = new Error(`Only the cafe owner can make edits!`);
+        error.status = 404;
+        throw error;
+      }
+
+      cb(false);
+    })
+    .catch(err => {
+      cb(err);
+    });
+};
+
 
 CafeSchema.statics.getTagsList = function(){
   return this.aggregate([

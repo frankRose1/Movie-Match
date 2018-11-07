@@ -15,8 +15,10 @@ router.post('/cafes',
   passport.authenticate('jwt', {session: false}),
   catchErrors(cafeController.createCafe)
 );
-//TODO: make sure the owner of the store is the one trying to update it
-router.put('/cafes/:cafeId/edit', authController.requiresLogin, catchErrors(cafeController.updateCafe));
+router.put('/cafes/:cafeId/edit', 
+  passport.authenticate('jwt', {session: false}),
+  authController.checkCafeOwner,
+  catchErrors(cafeController.updateCafe));
 router.get('/cafes/tags', catchErrors(cafeController.getCafesByTag));
 router.get('/cafes/tags/:tag', catchErrors(cafeController.getCafesByTag));
 router.get('/cafes/top-rated', catchErrors(cafeController.getTopCafes));
@@ -32,10 +34,10 @@ router.post('/users/login',
   authController.requiresLogout, 
   authController.userLogin
 );
-router.get('/users/logout', 
-  authController.requiresLogin, 
-  authController.userLogout
-);
+// router.get('/users/logout', 
+//   authController.requiresLogin, 
+//   authController.userLogout
+// );
 router.get('/users/account', 
   authController.requiresLogin,
   userController.userAccount

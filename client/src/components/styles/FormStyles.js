@@ -1,40 +1,42 @@
 import styled from 'styled-components';
 
 const FormStyles = styled.form`
-  margin: 20px auto;
+  margin: 0 auto;
   width: 80%;
   text-align: center;
-  box-shadow: 0 2px 3px #ccc;
+  box-shadow: ${props => props.theme.bs};
+  background: white;
   border: 1px solid #eee;
   padding: 10px;
 
   @media (min-width: 600px) {
     max-width: 550px;
   }
+
   div {
     width: 100%;
     padding: 10px;
-
+    margin-bottom: 8px;
     label {
       display: block;
       font-weight: bold;
-      margin-bottom: 8px;
     }
-    input, select, textarea {
+    input, textarea {
       outline: none;
       border: 1px solid #ccc;
       background-color: #fff;
       font: inherit;
-      padding: 6px 10px;
+      padding: 10px;
       display: block;
       width: 100%;
     }
 
     input:focus{
       outline: none;
-    background-color: #ccc;
+      background-color: #ccc;
     }
   }
+  
   button[type="submit"] {
     cursor: pointer;
     border: 1px solid transparent;
@@ -54,10 +56,6 @@ const FormStyles = styled.form`
   button:disabled {
     cursor: not-allowed;
     color: #ccc;
-  }
-  .reset-pw a {
-    color: lightblue;
-    margin-left: 5px;
   }
 `;
 

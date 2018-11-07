@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const StyledCafeCard = styled.li`
   border-radius: 5px;
-  background-color: ${props => props.theme.lightgrey};
+  background-color: white;
   box-shadow: ${props => props.theme.bs};
   .cafe__hero{
     position: relative;

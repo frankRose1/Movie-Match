@@ -23,11 +23,6 @@ const StyledNav = styled.nav`
     border: none;
     outline: none;
   }
-  .user-avatar {
-    width: 40px;
-    border-radius: 50%;
-    vertical-align: middle;
-  }
 }
 `;
 

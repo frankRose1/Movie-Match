@@ -17,7 +17,7 @@ class Nav extends Component {
             <NavLink to='/tags'>Tags</NavLink>
           </li>
           <li>
-            <NavLink to='/top'>Top</NavLink>
+            <NavLink to='/top-rated'>Top</NavLink>
           </li>
           {isAuthenticated
           ? <Fragment>
@@ -33,7 +33,7 @@ class Nav extends Component {
                     src={user.avatar} 
                     alt={user.name} 
                     title="You must have a Gravatar connected to your email to display an image." 
-                    className="user-avatar"/>
+                    className="avatar"/>
                 </Link>
               </li>
             </Fragment>
